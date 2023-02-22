@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 class RiveModel {
+
   final String src, artboard, stateMachineName;
   late SMIBool? status;
 

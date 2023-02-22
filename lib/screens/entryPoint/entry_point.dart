@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
+import 'package:rive_animation/events/sidebar_page_change.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
@@ -38,7 +39,6 @@ class _EntryPointState extends State<EntryPoint>
   late AnimationController _animationController;
   late Animation<double> scalAnimation;
   late Animation<double> animation;
-
   @override
   void initState() {
     _animationController = AnimationController(
@@ -52,6 +52,10 @@ class _EntryPointState extends State<EntryPoint>
         parent: _animationController, curve: Curves.fastOutSlowIn));
     animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
+    SideBarChangeEvent.getInstance().subscribe((args) {
+      currentIndex = args!.index;
+      toggleSideBarMenu();
+    });
     super.initState();
   }
 
@@ -60,6 +64,22 @@ class _EntryPointState extends State<EntryPoint>
     _animationController.dispose();
     super.dispose();
   }
+
+  void toggleSideBarMenu() {
+    isMenuOpenInput.value = !isMenuOpenInput.value;
+    if (_animationController.value == 0) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+    setState(
+      () {
+        isSideBarOpen = !isSideBarOpen;
+      },
+    );
+  }
+
+  late int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +96,7 @@ class _EntryPointState extends State<EntryPoint>
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 0 : -288,
             top: 0,
-            child: const SideBar(),
+            child: SideBar(),
           ),
           Transform(
             alignment: Alignment.center,
@@ -88,11 +108,11 @@ class _EntryPointState extends State<EntryPoint>
               offset: Offset(animation.value * 265, 0),
               child: Transform.scale(
                 scale: scalAnimation.value,
-                child: const ClipRRect(
-                  borderRadius: BorderRadius.all(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(24),
                   ),
-                  child: HomePage(),
+                  child: pages[currentIndex],
                 ),
               ),
             ),
@@ -104,19 +124,7 @@ class _EntryPointState extends State<EntryPoint>
             top: 16,
             child: MenuBtn(
               press: () {
-                isMenuOpenInput.value = !isMenuOpenInput.value;
-
-                if (_animationController.value == 0) {
-                  _animationController.forward();
-                } else {
-                  _animationController.reverse();
-                }
-
-                setState(
-                  () {
-                    isSideBarOpen = !isSideBarOpen;
-                  },
-                );
+                toggleSideBarMenu();
               },
               riveOnInit: (artboard) {
                 final controller = StateMachineController.fromArtboard(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
+import 'package:rive_animation/events/sidebar_page_change.dart';
 
 import '../../../model/menu.dart';
 import '../../../utils/rive_utils.dart';
@@ -6,14 +8,40 @@ import 'info_card.dart';
 import 'side_menu.dart';
 
 class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+  SideBar({
+    super.key,
+  });
+
+  late int currentIndex;
 
   @override
   State<SideBar> createState() => _SideBarState();
 }
 
-class _SideBarState extends State<SideBar> {
+class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
+  SideBarChangeEvent sideBarChangeEvent = SideBarChangeEvent();
   Menu selectedSideMenu = sidebarMenus.first;
+  bool isSideBarOpen = false;
+  // late SMIBool isMenuOpenInput;
+  late AnimationController _animationController;
+  @override
+  void initState() {
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200))
+      ..addListener(
+        () {
+          setState(() {});
+        },
+      );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,20 +74,27 @@ class _SideBarState extends State<SideBar> {
                 ),
               ),
               ...sidebarMenus
-                  .map((menu) => SideMenu(
+                  .asMap()
+                  .map((i, menu) => MapEntry(
+                      i,
+                      SideMenu(
                         menu: menu,
                         selectedMenu: selectedSideMenu,
                         press: () {
                           RiveUtils.chnageSMIBoolState(menu.rive.status!);
                           setState(() {
                             selectedSideMenu = menu;
+                            SideBarChangeEvent.getInstance()
+                                .broadcast(IndexEventArg(i));
                           });
                         },
+                        onTab: () {},
                         riveOnInit: (artboard) {
                           menu.rive.status = RiveUtils.getRiveInput(artboard,
                               stateMachineName: menu.rive.stateMachineName);
                         },
-                      ))
+                      )))
+                  .values
                   .toList(),
               Padding(
                 padding: const EdgeInsets.only(left: 24, top: 40, bottom: 16),
@@ -74,6 +109,7 @@ class _SideBarState extends State<SideBar> {
               ...sidebarMenus2
                   .map((menu) => SideMenu(
                         menu: menu,
+                        onTab: () {},
                         selectedMenu: selectedSideMenu,
                         press: () {
                           RiveUtils.chnageSMIBoolState(menu.rive.status!);

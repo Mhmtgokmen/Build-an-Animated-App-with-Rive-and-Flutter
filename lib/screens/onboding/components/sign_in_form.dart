@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/screens/entryPoint/entry_point.dart';
+import 'package:rive_animation/service/login_service.dart';
+import 'package:rive_animation/shared/return_info.dart';
+import 'package:rive_animation/shared/user_info.dart';
+import 'package:rive_animation/shared/utilities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -22,7 +27,8 @@ class _SignInFormState extends State<SignInForm> {
   late SMITrigger reset;
 
   late SMITrigger confetti;
-
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   void _onCheckRiveInit(Artboard artboard) {
     StateMachineController? controller =
         StateMachineController.fromArtboard(artboard, 'State Machine 1');
@@ -41,15 +47,19 @@ class _SignInFormState extends State<SignInForm> {
     confetti = controller.findInput<bool>("Trigger explosion") as SMITrigger;
   }
 
-  void singIn(BuildContext context) {
-    // confetti.fire();
+  Future<void> logIn() async {
     setState(() {
       isShowConfetti = true;
       isShowLoading = true;
     });
-    Future.delayed(
-      const Duration(seconds: 1),
-      () {
+    late ReturnInfo loginReturnInfo;
+    final LoginService loginService = LoginService();
+    try {
+      loginReturnInfo = await loginService.authenticate(
+          userNameController.text, passwordController.text);
+      if (loginReturnInfo.isSuccess) {
+        var prefs = await SharedPreferences.getInstance();
+        prefs.setString("session", (loginReturnInfo.data as UserInfo).sessionId);
         if (_formKey.currentState!.validate()) {
           success.fire();
           Future.delayed(
@@ -71,20 +81,25 @@ class _SignInFormState extends State<SignInForm> {
               });
             },
           );
-        } else {
-          error.fire();
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              setState(() {
-                isShowLoading = false;
-              });
-              reset.fire();
-            },
-          );
         }
-      },
-    );
+      } else {
+        error.fire();
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            setState(() {
+              isShowLoading = false;
+            });
+            reset.fire();
+          },
+        );
+      }
+    } on Exception catch (_) {
+      Utilities.showMessage(
+        context: context,
+        message: _.toString(),
+      );
+    }
   }
 
   @override
@@ -111,6 +126,7 @@ class _SignInFormState extends State<SignInForm> {
                     }
                     return null;
                   },
+                  controller: userNameController,
                   decoration: InputDecoration(
                     prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -135,6 +151,7 @@ class _SignInFormState extends State<SignInForm> {
                     }
                     return null;
                   },
+                  controller: passwordController,
                   decoration: InputDecoration(
                     prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -147,7 +164,8 @@ class _SignInFormState extends State<SignInForm> {
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    singIn(context);
+                    logIn();
+                    // singIn(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFF77D8E),

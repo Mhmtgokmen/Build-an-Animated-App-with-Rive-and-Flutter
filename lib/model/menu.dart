@@ -1,3 +1,8 @@
+import 'package:rive_animation/screens/home/home_screen.dart';
+import 'package:rive_animation/screens/search/favori_pages.dart';
+import 'package:rive_animation/screens/search/help_page.dart';
+import 'package:rive_animation/screens/search/search_page.dart';
+
 import 'rive_model.dart';
 
 class Menu {
@@ -91,3 +96,10 @@ List<Menu> bottomNavItems = [
         stateMachineName: "USER_Interactivity"),
   ),
 ];
+
+List pages = [
+    const HomePage(),
+    const SearchPage(),
+    const FavoriPage(),
+    const HelpPage(),
+  ];

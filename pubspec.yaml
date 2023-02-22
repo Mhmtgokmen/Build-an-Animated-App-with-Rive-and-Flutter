@@ -31,13 +31,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  json_annotation: ^4.8.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   rive: ^0.9.1
   flutter_svg: ^1.1.6
-
+  event: ^2.1.2
+  http: ^0.13.5
+  another_flushbar: ^1.12.29
+  shared_preferences: ^0.5.5
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,7 +52,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

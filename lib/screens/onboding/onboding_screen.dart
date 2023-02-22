@@ -2,6 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:rive_animation/screens/entryPoint/entry_point.dart';
+import 'package:rive_animation/service/login_service.dart';
+import 'package:rive_animation/shared/utilities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/animated_btn.dart';
 import 'components/sign_in_dialog.dart';
@@ -15,7 +19,7 @@ class OnbodingScreen extends StatefulWidget {
 
 class _OnbodingScreenState extends State<OnbodingScreen> {
   late RiveAnimationController _btnAnimationController;
-
+  final LoginService _loginService = LoginService();
   bool isShowSignInDialog = false;
 
   @override
@@ -25,6 +29,68 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
       autoplay: false,
     );
     super.initState();
+    sharedLogin();
+  }
+
+  Future<void> sharedLogin() {
+    return Future.delayed(
+      const Duration(seconds: 1),
+      () async {
+        try {
+          var prefs = await SharedPreferences.getInstance();
+          String? session = prefs.getString("session");
+          if (session == null) {
+            // setState(() {
+            //   isShowSignInDialog = true;
+            // });
+
+            // ignore: use_build_context_synchronously
+            return showCustomDialog(
+              context,
+              onValue: (_) {
+                setState(() {
+                  isShowSignInDialog = false;
+                });
+              },
+            );
+          } else {
+            var loginReturnInfo =
+                await _loginService.getAuthenticatedUser(session);
+            if (loginReturnInfo.isLoginRequired == true) {
+              //ignore: use_build_context_synchronously
+              return showCustomDialog(
+                context,
+                onValue: (_) {
+                  setState(() {
+                    isShowSignInDialog = false;
+                  });
+                },
+              );
+            } else if (loginReturnInfo.isSuccess) {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EntryPoint(),
+                ),
+              );
+            } else {
+              // ignore: use_build_context_synchronously
+              return showCustomDialog(
+                context,
+                onValue: (_) {
+                  setState(() {
+                    isShowSignInDialog = false;
+                  });
+                },
+              );
+            }
+          }
+        } on Exception catch (_) {
+          Utilities.showMessage(context: context, message: _.toString());
+        }
+      },
+    );
   }
 
   @override
@@ -109,6 +175,7 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                             );
                           },
                         );
+                        // sharedLogin();
                       },
                     ),
                     const Padding(
