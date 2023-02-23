@@ -10,12 +10,13 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Container(
-        alignment: Alignment.centerLeft,
-        color: Colors.white,
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          alignment: Alignment.centerLeft,
+          color: Colors.white,
           child: Text("Search"),
-        
+        ),
       ),
     );
   }

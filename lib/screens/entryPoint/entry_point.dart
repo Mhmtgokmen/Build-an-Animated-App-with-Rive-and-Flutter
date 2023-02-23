@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/events/sidebar_page_change.dart';
-import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
 import '../../model/menu.dart';
@@ -55,6 +54,7 @@ class _EntryPointState extends State<EntryPoint>
     SideBarChangeEvent.getInstance().subscribe((args) {
       currentIndex = args!.index;
       toggleSideBarMenu();
+      PageManager.renewPageByIndex(currentIndex);
     });
     super.initState();
   }

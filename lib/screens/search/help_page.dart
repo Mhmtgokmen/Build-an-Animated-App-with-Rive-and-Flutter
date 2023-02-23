@@ -10,12 +10,18 @@ class HelpPage extends StatefulWidget {
 class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Container(
-        alignment: Alignment.centerLeft,
-        color: Colors.white,
-          child: Text("Help"),
-        
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          alignment: Alignment.centerLeft,
+          color: Colors.white,
+          child: const TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Enter",
+            ),
+          ),
+        ),
       ),
     );
   }

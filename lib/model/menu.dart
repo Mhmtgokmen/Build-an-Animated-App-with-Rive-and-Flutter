@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/screens/search/favori_pages.dart';
 import 'package:rive_animation/screens/search/help_page.dart';
@@ -98,8 +99,34 @@ List<Menu> bottomNavItems = [
 ];
 
 List pages = [
-    const HomePage(),
-    const SearchPage(),
-    const FavoriPage(),
-    const HelpPage(),
-  ];
+  const HomePage(),
+  const SearchPage(),
+  FavoriPage(session: "7d5214c5-f2c4-44ff-9dc1-25c617767c7a"),
+  // const FavoriPage(),
+  const HelpPage(),
+];
+
+class PageManager {
+  static Widget getByPageManger(int index) {
+    return pages[index];
+  }
+
+  static Widget recreatePageByIndex(int index) {
+    if (index == 0) {
+      return const HomePage();
+    }
+    if (index == 1) {
+      return const SearchPage();
+    }
+    if (index == 2) {
+      return FavoriPage(session: "7d5214c5-f2c4-44ff-9dc1-25c617767c7a");
+    } else {
+      return const HelpPage();
+    }
+  }
+
+  static void renewPageByIndex(int index) {
+    pages[index] = recreatePageByIndex(index);
+    
+  }
+}
