@@ -9,14 +9,13 @@ class SideMenu extends StatelessWidget {
     required this.menu,
     required this.press,
     required this.riveOnInit,
-    required this.selectedMenu, required this.onTab,
+    required this.selectedMenu,
   });
 
   final Menu menu;
   final VoidCallback press;
   final ValueChanged<Artboard> riveOnInit;
   final Menu selectedMenu;
-  final VoidCallback onTab;
 
   @override
   Widget build(BuildContext context) {

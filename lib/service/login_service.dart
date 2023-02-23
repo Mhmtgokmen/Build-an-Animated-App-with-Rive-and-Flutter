@@ -21,10 +21,37 @@ class LoginService {
       if (response.statusCode == 200) {
         String responseBody = response.body;
         var responseData = ReturnInfo.fromJson(
-            json.decode(responseBody),
-            (data) => data != null
-                ? UserInfo.fromJson(data as Map<String, dynamic>)
-                : null);
+          json.decode(responseBody),
+          (data) => data != null
+              ? UserInfo.fromJson(data as Map<String, dynamic>)
+              : null,
+        );
+        return responseData;
+      } else {
+        throw Exception('Faild to get data');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<ReturnInfo> getUserMenuInfo(String sessionId) async {
+    try {
+      String body = json.encode({"session": sessionId});
+      final response = await http.post(
+        Uri.parse("${ApiConstants.apiUrl}$service/GetUserMenuInfo"),
+        headers: _headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        String responseBody = response.body;
+        var responseData = ReturnInfo.fromJson(
+          json.decode(responseBody),
+          (data) => data != null
+              ? UserInfo.fromJson(data as Map<String, dynamic>)
+              : null,
+        );
         return responseData;
       } else {
         throw Exception('Faild to get data');
@@ -45,10 +72,11 @@ class LoginService {
       if (response.statusCode == 200) {
         String responseBody = response.body;
         var responseData = ReturnInfo.fromJson(
-            json.decode(responseBody),
-            (data) => data != null
-                ? UserInfo.fromJson(data as Map<String, dynamic>)
-                : null);
+          json.decode(responseBody),
+          (data) => data != null
+              ? UserInfo.fromJson(data as Map<String, dynamic>)
+              : null,
+        );
         return responseData;
       } else {
         throw Exception('Failed to get data');

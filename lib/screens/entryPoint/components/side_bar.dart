@@ -75,7 +75,8 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
               ),
               ...sidebarMenus
                   .asMap()
-                  .map((i, menu) => MapEntry(
+                  .map(
+                    (i, menu) => MapEntry(
                       i,
                       SideMenu(
                         menu: menu,
@@ -88,12 +89,13 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
                                 .broadcast(IndexEventArg(i));
                           });
                         },
-                        onTab: () {},
                         riveOnInit: (artboard) {
                           menu.rive.status = RiveUtils.getRiveInput(artboard,
                               stateMachineName: menu.rive.stateMachineName);
                         },
-                      )))
+                      ),
+                    ),
+                  )
                   .values
                   .toList(),
               Padding(
@@ -109,7 +111,6 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
               ...sidebarMenus2
                   .map((menu) => SideMenu(
                         menu: menu,
-                        onTab: () {},
                         selectedMenu: selectedSideMenu,
                         press: () {
                           RiveUtils.chnageSMIBoolState(menu.rive.status!);
