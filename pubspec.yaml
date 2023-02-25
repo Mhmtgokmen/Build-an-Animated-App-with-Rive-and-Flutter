@@ -41,6 +41,7 @@ dependencies:
   http: ^0.13.5
   another_flushbar: ^1.12.29
   shared_preferences: ^0.5.5
+  infinite_scroll_pagination: ^3.2.0
   
 dev_dependencies:
   flutter_test:

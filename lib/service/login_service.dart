@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:rive_animation/constants/api_constants.dart';
+import 'package:rive_animation/model/user_menu_info_model.dart';
 import 'package:rive_animation/shared/return_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:rive_animation/shared/user_info.dart';
@@ -39,7 +40,7 @@ class LoginService {
     try {
       String body = json.encode({"session": sessionId});
       final response = await http.post(
-        Uri.parse("${ApiConstants.apiUrl}$service/GetUserMenuInfo"),
+        Uri.parse("${ApiConstants.apiUrl}$service/GetUserMenuInfo?session=$sessionId"),
         headers: _headers,
         body: body,
       );
@@ -49,7 +50,7 @@ class LoginService {
         var responseData = ReturnInfo.fromJson(
           json.decode(responseBody),
           (data) => data != null
-              ? UserInfo.fromJson(data as Map<String, dynamic>)
+              ? (data as List<dynamic>).map((e) =>  UserMenuInfoModel.fromJson(e as Map<String, dynamic>)).toList()
               : null,
         );
         return responseData;

@@ -100,8 +100,8 @@ List<Menu> bottomNavItems = [
 
 List pages = [
   const HomePage(),
-  const SearchPage(),
-  FavoriPage(session: "7d5214c5-f2c4-44ff-9dc1-25c617767c7a"),
+  SearchPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b"),
+  FavoriPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b"),
   // const FavoriPage(),
   const HelpPage(),
 ];
@@ -116,10 +116,10 @@ class PageManager {
       return const HomePage();
     }
     if (index == 1) {
-      return const SearchPage();
+      return SearchPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b");
     }
     if (index == 2) {
-      return FavoriPage(session: "7d5214c5-f2c4-44ff-9dc1-25c617767c7a");
+      return FavoriPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b");
     } else {
       return const HelpPage();
     }
@@ -127,6 +127,5 @@ class PageManager {
 
   static void renewPageByIndex(int index) {
     pages[index] = recreatePageByIndex(index);
-    
   }
 }

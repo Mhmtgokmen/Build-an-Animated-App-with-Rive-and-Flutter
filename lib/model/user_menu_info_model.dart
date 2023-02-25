@@ -21,7 +21,7 @@ class UserMenuInfoModel {
     required this.subMenuItems,
   });
 
-    factory UserMenuInfoModel.fromJson(Map<String, dynamic> json) =>
+  factory UserMenuInfoModel.fromJson(Map<String, dynamic> json) =>
       _$UserMenuInfoModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserMenuInfoModelToJson(this);
