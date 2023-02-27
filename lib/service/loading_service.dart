@@ -1,19 +1,24 @@
 import 'dart:convert';
 
 import 'package:rive_animation/constants/api_constants.dart';
+import 'package:rive_animation/model/column_info_model.dart';
+import 'package:rive_animation/model/filter_model.dart';
+import 'package:rive_animation/model/loading_filter_model.dart';
+import 'package:rive_animation/model/loading_model.dart';
+import 'package:rive_animation/model/query_info_model.dart';
 import 'package:rive_animation/shared/return_info.dart';
 import 'package:http/http.dart' as http;
-import 'package:rive_animation/shared/user_info.dart';
+import 'package:rive_animation/shared/session_manager.dart';
 
 class LoadingService{
   static final _headers = {'Content-Type': 'application/json'};
   static const String service = '/Loading';
 
-  Future<ReturnInfo> getLoadingList(String session) async {
+  Future<ReturnInfo> getLoadingList(FilterModel<LoadingFilterModel> filter) async {
     try{
-      String body = json.encode({"session":session});
+      String body = json.encode(filter);
             final response = await http.post(
-        Uri.parse("${ApiConstants.apiUrl}$service/GetLoadingList?session=$session"),
+        Uri.parse("${ApiConstants.apiUrl}$service/GetLoadingList?session=$SessionManager.getSessionId()"),
         headers: _headers,
         body: body,
       );
@@ -23,7 +28,7 @@ class LoadingService{
         var responseData = ReturnInfo.fromJson(
           json.decode(responseBody),
           (data) => data != null
-              ? UserInfo.fromJson(data as Map<String, dynamic>)
+              ? (data as List<dynamic>).map((e) =>  LoadingModel.fromJson(e as Map<String, dynamic>)).toList()
               : null,
         );
         return responseData;

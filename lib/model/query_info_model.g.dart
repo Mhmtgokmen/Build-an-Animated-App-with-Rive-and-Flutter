@@ -9,9 +9,7 @@ part of 'query_info_model.dart';
 QueryInfoModel _$QueryInfoModelFromJson(Map<String, dynamic> json) =>
     QueryInfoModel(
       orderby: json['orderby'] as String,
-      pager: (json['pager'] as List<dynamic>)
-          .map((e) => PagerModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      pager: PagerModel.fromJson(json['pager'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$QueryInfoModelToJson(QueryInfoModel instance) =>

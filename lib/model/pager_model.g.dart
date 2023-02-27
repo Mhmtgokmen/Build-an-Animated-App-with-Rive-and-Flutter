@@ -7,7 +7,7 @@ part of 'pager_model.dart';
 // **************************************************************************
 
 PagerModel _$PagerModelFromJson(Map<String, dynamic> json) => PagerModel(
-      totalCount: json['totalCount'] as int,
+      totalCount: json['totalCount'] as int?,
       pageSize: json['pageSize'] as int,
       currentPage: json['currentPage'] as int,
     );

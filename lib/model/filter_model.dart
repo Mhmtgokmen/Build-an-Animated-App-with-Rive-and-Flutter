@@ -10,7 +10,7 @@ class FilterModel<T> {
   @JsonKey(name: 'filter')
   T? filter;
   @JsonKey(name: 'queryInfo')
-  List<QueryInfoModel> queryInfo;
+  QueryInfoModel queryInfo;
   @JsonKey(name: 'isExport')
   bool isExport;
   @JsonKey(name: 'columnInfos')

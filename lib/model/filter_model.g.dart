@@ -12,12 +12,11 @@ FilterModel<T> _$FilterModelFromJson<T>(
 ) =>
     FilterModel<T>(
       filter: _$nullableGenericFromJson(json['filter'], fromJsonT),
-      queryInfo: (json['queryInfo'] as List<dynamic>)
-          .map((e) => QueryInfoModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      queryInfo:
+          QueryInfoModel.fromJson(json['queryInfo'] as Map<String, dynamic>),
       isExport: json['isExport'] as bool,
-      columnInfos: (json['columnInfos'] as List<dynamic>)
-          .map((e) => ColumnInfoModel.fromJson(e as Map<String, dynamic>))
+      columnInfos: (json['columnInfos'] as List<dynamic>?)
+          ?.map((e) => ColumnInfoModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

@@ -7,11 +7,11 @@ import 'package:rive_animation/shared/return_info.dart';
 class FavoriPage extends StatefulWidget {
   FavoriPage({super.key, required this.session}) {
     loginService = LoginService();
-    menu = [];
+    // menu = [];
   }
   final String session;
   // final LoginService loginService = LoginService();
-  late List<UserMenuInfoModel> menu;
+  late List<UserMenuInfoModel> menu = [];
   late ReturnInfo<dynamic> returnInfo;
   late LoginService loginService;
   @override
@@ -26,66 +26,61 @@ class _FavoriPageState extends State<FavoriPage> {
   final int pageSize = 0;
   @override
   void initState() {
-    pagingController.addPageRequestListener((pageKey) {
-      fetchPage(pageKey);
-    });
+    // pagingController.addPageRequestListener((pageKey) {
+    //   fetchPage(pageKey);
+    // });
     super.initState();
-    ((String session) async {
-      if (session != null) {
-        return widget.returnInfo;
-      } else {
-        widget.menu =
-            (await widget.loginService.getUserMenuInfo(widget.session)).data!;
-      }
-    });
+    getdata();
   }
 
-  Future<void> fetchPage(pageKey) async {
-    try {
-      final newItems =
-          await widget.loginService.getUserMenuInfo(widget.session);
-      final isLastPage = newItems.data.length < pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(newItems.data);
-      } else {
-        final nextPageKey = pageKey + newItems.data.length;
-        pagingController.appendPage(newItems.data, nextPageKey);
-      }
-    } catch (error) {
-      pagingController.error = error;
-    }
+  Future<void> getdata() async {
+    widget.menu =
+        (await widget.loginService.getUserMenuInfo(widget.session)).data;
+    setState(() {});
   }
+
+  // Future<void> fetchPage(pageKey) async {
+  //   try {
+  //     final newItems =
+  //         await widget.loginService.getUserMenuInfo(widget.session);
+  //     final isLastPage = newItems.data.length < pageSize;
+  //     if (isLastPage) {
+  //       pagingController.appendLastPage(newItems.data);
+  //     } else {
+  //       final nextPageKey = pageKey + newItems.data.length;
+  //       pagingController.appendPage(newItems.data, nextPageKey);
+  //     }
+  //   } catch (error) {
+  //     pagingController.error = error;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: PagedListView<int, dynamic>(
-          pagingController: pagingController,
-          builderDelegate: PagedChildBuilderDelegate<dynamic>(
-            itemBuilder: (context, item, index) => ListTile(
-              leading: Text(item.translateName),
-              title: Text(item.menuName),
-            ),
+        child: ListView.builder(
+          shrinkWrap: true,
+          controller: controller,
+          itemCount: widget.menu.length,
+          itemBuilder: (context, index) => ExpansionTile(
+            title: Text(widget.menu[index].menuName),
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                controller: controller,
+                itemCount: widget.menu[index].subMenuItems.length,
+                itemBuilder: (context, index) => ListTile(
+                  isThreeLine:true,
+                  title: Text(
+                    widget.menu[index].subMenuItems[index].menuName,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        // child: Column(
-        //   children: [
-        //     Expanded(
-        //       child: ListView.builder(
-        //         controller: controller,
-        //         itemCount: widget.menu.length,
-        //         itemBuilder: (context, index) => ListTile(
-        //           onTap: () {},
-        //           leading: Text(widget.menu[index].translateName),
-        //           title: Text(widget.menu[index].menuName),
-        //         ),
-        //       ),
-        //     ),
-        //     const Expanded(child: Text("Ne zaman çalışacaksın"))
-        //   ],
-        // ),
       ),
     );
   }

@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rive_animation/model/filter_model.dart';
+import 'package:rive_animation/model/loading_filter_model.dart';
+import 'package:rive_animation/model/pager_model.dart';
+import 'package:rive_animation/model/query_info_model.dart';
 import 'package:rive_animation/service/loading_service.dart';
 import 'package:rive_animation/shared/return_info.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({super.key, required this.session}) {
     loadingService = LoadingService();
-    filter = [];
+    filter = FilterModel(
+      filter: LoadingFilterModel(),
+      queryInfo: QueryInfoModel(
+        orderby: "loadingId",
+        pager: PagerModel(
+          currentPage: currentPage,
+          pageSize: pageSize,
+        ),
+      ),
+      isExport: false,
+      columnInfos: null,
+    );
   }
 
   final String session;
-  late List<FilterModel> filter;
+  late FilterModel<LoadingFilterModel> filter;
   late ReturnInfo<dynamic> returnInfo;
   late LoadingService loadingService;
+  final int pageSize = 10;
+  final int currentPage = 0;
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -21,8 +37,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final PagingController<int, dynamic> pagingController =
       PagingController(firstPageKey: 0);
-
-  final int pageSize = 10;
 
   @override
   void initState() {
@@ -32,15 +46,15 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
-  Future<void> fetchPage(pageKey) async {
+  Future<void> fetchPage(int page) async {
     try {
       final newItems =
-          await widget.loadingService.getLoadingList(widget.session);
-      final isLastPage = newItems.data.length < pageSize;
+          await widget.loadingService.getLoadingList(widget.filter);
+      final isLastPage = newItems.data.length < widget.pageSize;
       if (isLastPage) {
         pagingController.appendLastPage(newItems.data);
       } else {
-        final nextPageKey = pageKey + 1;
+        final nextPageKey = page + 1;
         pagingController.appendPage(newItems.data, nextPageKey);
       }
     } catch (error) {
@@ -55,9 +69,9 @@ class _SearchPageState extends State<SearchPage> {
         child: PagedListView<int, dynamic>(
           pagingController: pagingController,
           builderDelegate: PagedChildBuilderDelegate<dynamic>(
-            itemBuilder: (context, item, index) => const ListTile(
-              leading: Text(""),
-              title: Text(""),
+            itemBuilder: (context, item, index) => ListTile(
+              leading: Text(item.loadingId),
+              title: Text(item.representativeName),
             ),
           ),
         ),

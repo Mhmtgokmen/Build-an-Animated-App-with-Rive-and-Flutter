@@ -4,16 +4,17 @@ part 'pager_model.g.dart';
 
 @JsonSerializable()
 class PagerModel {
-  int totalCount;
+  int? totalCount;
   int pageSize;
   int currentPage;
 
-  PagerModel(
-      {required this.totalCount,
-      required this.pageSize,
-      required this.currentPage});
+  PagerModel({
+    this.totalCount,
+    required this.pageSize,
+    required this.currentPage,
+  });
 
- factory PagerModel.fromJson(Map<String, dynamic> json) =>
+  factory PagerModel.fromJson(Map<String, dynamic> json) =>
       _$PagerModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PagerModelToJson(this);

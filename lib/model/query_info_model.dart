@@ -6,7 +6,7 @@ part 'query_info_model.g.dart';
 @JsonSerializable()
 class QueryInfoModel {
   String orderby;
-  List<PagerModel> pager;
+  PagerModel pager;
 
   QueryInfoModel({
     required this.orderby,

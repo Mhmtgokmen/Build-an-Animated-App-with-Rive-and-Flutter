@@ -3,6 +3,7 @@ import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/screens/search/favori_pages.dart';
 import 'package:rive_animation/screens/search/help_page.dart';
 import 'package:rive_animation/screens/search/search_page.dart';
+import 'package:rive_animation/shared/session_manager.dart';
 
 import 'rive_model.dart';
 
@@ -100,9 +101,8 @@ List<Menu> bottomNavItems = [
 
 List pages = [
   const HomePage(),
-  SearchPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b"),
-  FavoriPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b"),
-  // const FavoriPage(),
+  SearchPage(session: SessionManager.getSessionId()),
+  FavoriPage(session: SessionManager.getSessionId()),
   const HelpPage(),
 ];
 
@@ -116,10 +116,10 @@ class PageManager {
       return const HomePage();
     }
     if (index == 1) {
-      return SearchPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b");
+      return SearchPage(session: SessionManager.getSessionId());
     }
     if (index == 2) {
-      return FavoriPage(session: "748ffe7d-92e3-47c2-8f3a-0f82b53f3c3b");
+      return FavoriPage(session: SessionManager.getSessionId());
     } else {
       return const HelpPage();
     }
