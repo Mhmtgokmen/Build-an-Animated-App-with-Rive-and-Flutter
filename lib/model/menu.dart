@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/screens/search/favori_pages.dart';
 import 'package:rive_animation/screens/search/help_page.dart';
-import 'package:rive_animation/screens/search/search_page.dart';
+import 'package:rive_animation/screens/loading/loading_page.dart';
 import 'package:rive_animation/shared/session_manager.dart';
 
 import 'rive_model.dart';
@@ -101,7 +101,7 @@ List<Menu> bottomNavItems = [
 
 List pages = [
   const HomePage(),
-  SearchPage(session: SessionManager.getSessionId()),
+  LoadingPage(session: SessionManager.getSessionId()),
   FavoriPage(session: SessionManager.getSessionId()),
   const HelpPage(),
 ];
@@ -116,7 +116,7 @@ class PageManager {
       return const HomePage();
     }
     if (index == 1) {
-      return SearchPage(session: SessionManager.getSessionId());
+      return LoadingPage(session: SessionManager.getSessionId());
     }
     if (index == 2) {
       return FavoriPage(session: SessionManager.getSessionId());

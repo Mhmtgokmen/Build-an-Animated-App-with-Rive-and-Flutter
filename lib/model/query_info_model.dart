@@ -7,6 +7,7 @@ part 'query_info_model.g.dart';
 class QueryInfoModel {
   String orderby;
   PagerModel pager;
+  
 
   QueryInfoModel({
     required this.orderby,
@@ -17,4 +18,6 @@ class QueryInfoModel {
       _$QueryInfoModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$QueryInfoModelToJson(this);
+
+  
 }
