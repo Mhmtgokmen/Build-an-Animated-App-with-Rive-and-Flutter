@@ -146,7 +146,10 @@ class _LoadingPageState extends State<LoadingPage>
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => const LoadingDialog(),
+                                                builder: (context) =>
+                                                    LoadingDialog(
+                                                  item: item,
+                                                ),
                                                 fullscreenDialog: true,
                                               ),
                                             );

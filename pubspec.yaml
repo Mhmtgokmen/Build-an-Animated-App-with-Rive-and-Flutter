@@ -43,6 +43,8 @@ dependencies:
   shared_preferences: ^0.5.5
   infinite_scroll_pagination: ^3.2.0
   iconsax: ^0.0.8
+  date_field: ^3.0.2
+  intl: ^0.17.0
   
 dev_dependencies:
   flutter_test:

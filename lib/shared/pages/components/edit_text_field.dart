@@ -8,6 +8,7 @@ class EditTextField extends StatelessWidget {
     this.controller,
     this.left = 16,
     this.right = 16,
+    this.isReadOnly = false,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -15,6 +16,7 @@ class EditTextField extends StatelessWidget {
   final double top;
   final double left;
   final double right;
+  final bool isReadOnly;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +25,9 @@ class EditTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
+        readOnly: isReadOnly,
         controller: controller,
+        // maxLines: 2,
         decoration: InputDecoration(
           labelText: labelText,
           hintStyle: const TextStyle(
