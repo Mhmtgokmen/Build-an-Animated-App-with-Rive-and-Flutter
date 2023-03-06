@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rive_animation/model/menu.dart';
 import 'package:rive_animation/shared/pages/components/drop_down_list_item.dart';
 
 class DropDownField extends StatefulWidget {
@@ -7,18 +6,18 @@ class DropDownField extends StatefulWidget {
     super.key,
     required this.hintText,
     required this.dropdownItems,
-    required this.valueText,
+    required this.value,
+    required this.callback,
   });
+  late Function callback;
   final String hintText;
   final List<DropDownListItem> dropdownItems;
-  DropDownListItem? valueText;
+  DropDownListItem? value;
   @override
   State<DropDownField> createState() => _DropDownFieldState();
 }
 
 class _DropDownFieldState extends State<DropDownField> {
-  // DropDownListItem? selectedValue;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,19 +27,16 @@ class _DropDownFieldState extends State<DropDownField> {
         color: const Color(0xFFEFEFF4),
       ),
       child: DropdownButtonFormField(
-        value: widget.valueText,
+        value: widget.value,
         decoration: const InputDecoration(
           border: InputBorder.none,
           fillColor: Colors.white,
         ),
-        hint: Padding(
-          padding: const EdgeInsets.only(left: 0),
-          child: Text(
-            widget.hintText,
-            style: const TextStyle(
-              fontSize: 17,
-              color: Color(0xFF8A8A8F),
-            ),
+        hint: Text(
+          widget.hintText,
+          style: const TextStyle(
+            fontSize: 17,
+            color: Color(0xFF8A8A8F),
           ),
         ),
         icon: const Padding(
@@ -53,26 +49,25 @@ class _DropDownFieldState extends State<DropDownField> {
         ),
         focusColor: const Color(0xFFEFEFF4),
         dropdownColor: Colors.white,
-        items: widget.dropdownItems
-            .map<DropdownMenuItem<DropDownListItem>>((DropDownListItem items) {
-          return DropdownMenuItem<DropDownListItem>(
-            value: items,
-            child: Container(
-              padding: const EdgeInsets.only(left: 16),
+        items: widget.dropdownItems.map<DropdownMenuItem<DropDownListItem>>(
+          (item) {
+            return DropdownMenuItem<DropDownListItem>(
+              value: item,
               child: Text(
-                items.text,
+                item.text,
                 style: const TextStyle(
                   color: Color(0xFF8A8A8F),
                   fontSize: 17,
                 ),
               ),
-            ),
-          );
-        }).toList(),
+            );
+          },
+        ).toList(),
         onChanged: (DropDownListItem? newValue) {
           setState(() {
-            widget.valueText = newValue!;
+            widget.value = newValue!;
           });
+          widget.callback(widget.value);
         },
       ),
     );

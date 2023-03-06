@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rive_animation/model/filter_model.dart';
-import 'package:rive_animation/model/loading_filter_model.dart';
+import 'package:intl/intl.dart';
 import 'package:rive_animation/model/loading_model.dart';
 import 'package:rive_animation/shared/pages/components/button_field.dart';
 import 'package:rive_animation/shared/pages/components/date_time_field.dart';
@@ -18,8 +17,6 @@ class LoadingDialog extends StatefulWidget {
 class _LoadingDialogState extends State<LoadingDialog> {
   final descriptionTextController = TextEditingController();
   final noteTextController = TextEditingController();
-  // final loadingDateController = TextEditingController();
-  // final statusController = TextEditingController();
   final containerQuantityController = TextEditingController();
   final responsibleNameTextController = TextEditingController();
   final cbmLimitTextController = TextEditingController();
@@ -30,6 +27,9 @@ class _LoadingDialogState extends State<LoadingDialog> {
   final updatedUserTextController = TextEditingController();
   DropDownListItem? selectedConTypeValue;
   DropDownListItem? selectedStatusValue;
+  DateTime? selectedDate;
+  late List<DropDownListItem> containerTypeDropDownItems;
+  late List<DropDownListItem> statusDropDownItems;
   @override
   void initState() {
     descriptionTextController.text = widget.item.description;
@@ -38,20 +38,41 @@ class _LoadingDialogState extends State<LoadingDialog> {
     responsibleNameTextController.text = widget.item.responsibleName;
     cbmLimitTextController.text = widget.item.cbmLimit.toString();
     kgLimitTextController.text = widget.item.kgLimit.toString();
-    createdDateTextController.text = widget.item.createdDate.toString();
+    createdDateTextController.text =
+        DateFormat('y/M/d - kk:mm').format(widget.item.createdDate);
     createdUserTextController.text = widget.item.createdUserText;
-    updatedDateTextController.text = widget.item.updatedDate.toString();
+    updatedDateTextController.text =
+        DateFormat('y/M/d - kk:mm').format(widget.item.updatedDate);
     updatedUserTextController.text = widget.item.updatedUserText;
-    selectedConTypeValue = widget.item.quantity as DropDownListItem?;
-    selectedStatusValue = widget.item.status as DropDownListItem?;
+    selectedDate = widget.item.loadingDate;
+    containerTypeDropDownItems = [
+      DropDownListItem(text: '40 HC', value: 124),
+      DropDownListItem(text: '20 DC', value: 125),
+      DropDownListItem(text: 'Parsiyel - Deniz', value: 129),
+      DropDownListItem(text: 'Açık Gemi Yükü', value: 1155),
+      DropDownListItem(text: 'Parsiyel - Hava', value: 2200),
+      DropDownListItem(text: 'Parsiyel - Kara', value: 2201),
+    ];
+    selectedConTypeValue = containerTypeDropDownItems
+        .where((element) => element.value == widget.item.containerType)
+        .first;
+    statusDropDownItems = [
+      DropDownListItem(text: 'Planlandı', value: 1),
+      DropDownListItem(text: 'Yüklendi', value: 2),
+      DropDownListItem(text: 'Sevk edildi', value: 3),
+    ];
+    selectedStatusValue = statusDropDownItems
+        .where((element) => element.value == widget.item.status)
+        .first;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBody: true,
-      // resizeToAvoidBottomInset: false,
+      extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SafeArea(
@@ -73,9 +94,9 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         onPressed: () => Navigator.pop(context),
                       ),
                       const SizedBox(width: 90),
-                      const Text(
-                        "Güncelleme",
-                        style: TextStyle(
+                      Text(
+                        "Güncelleme - ${widget.item.loadingId}",
+                        style: const TextStyle(
                           fontSize: 17,
                           color: Color(0xFF000000),
                         ),
@@ -102,18 +123,20 @@ class _LoadingDialogState extends State<LoadingDialog> {
                           ),
                           DropDownField(
                             hintText: "Konteyner Tipi",
-                            valueText: selectedConTypeValue,
-                            dropdownItems: [
-                              DropDownListItem(text: '40 HC'),
-                              DropDownListItem(text: '20 DC'),
-                              DropDownListItem(text: 'PARSİYEL - DENİZ'),
-                              DropDownListItem(text: 'ACIK GEMİ YÜKÜ'),
-                              DropDownListItem(text: 'PARSİYEL - HAVA'),
-                              DropDownListItem(text: 'PARSİYEL - KARA'),
-                            ],
+                            value: selectedConTypeValue,
+                            dropdownItems: containerTypeDropDownItems,
+                            callback: (value) {
+                              setState(() {
+                                selectedConTypeValue = value;
+                              });
+                            },
                           ),
-                          const DateTimeField(
+                          DateTimeField(
                             labelText: "Yükleme Tarihi",
+                            selectedDate: selectedDate,
+                            callback: (value) {
+                              selectedDate = value;
+                            },
                           ),
                           EditTextField(
                             labelText: "Konteyner Adedi",
@@ -121,12 +144,13 @@ class _LoadingDialogState extends State<LoadingDialog> {
                           ),
                           DropDownField(
                             hintText: "Durum",
-                            valueText: selectedStatusValue,
-                            dropdownItems: [
-                              DropDownListItem(text: 'Planlandı'),
-                              DropDownListItem(text: 'Yüklendi'),
-                              DropDownListItem(text: 'Sevk edildi'),
-                            ],
+                            value: selectedStatusValue,
+                            dropdownItems: statusDropDownItems,
+                            callback: (value) {
+                              setState(() {
+                                selectedStatusValue = value;
+                              });
+                            },
                           ),
                           EditTextField(
                             labelText: "Sorumlu",
@@ -196,12 +220,30 @@ class _LoadingDialogState extends State<LoadingDialog> {
           children: [
             ButtonField(
               text: "Sil",
-              onPressed: () {},
+              color: const Color(0xFFff3d57),
+              onPressed: () {
+                print(selectedStatusValue?.value);
+              },
             ),
             const Spacer(),
             ButtonField(
               text: "Güncelle",
-              onPressed: () {},
+              color: const Color(0xFF5052A2),
+              onPressed: () {
+                print(selectedConTypeValue?.value);
+                print(selectedDate);
+                // widget.item.description = descriptionTextController.text;
+                // widget.item.note = noteTextController.text;
+                // widget.item.containerType = selectedConTypeValue as int;
+                // widget.item.loadingDate = selectedDate;
+                // widget.item.quantity =
+                //     int.parse(containerQuantityController.text);
+                // widget.item.status = selectedStatusValue as int;
+                // widget.item.responsibleName =
+                //     responsibleNameTextController.text;
+                // widget.item.cbmLimit = cbmLimitTextController.text as double;
+                // widget.item.kgLimit = kgLimitTextController.text as double;
+              },
             ),
           ],
         ),

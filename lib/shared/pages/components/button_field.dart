@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ButtonField extends StatelessWidget {
-  const ButtonField(
-      {Key? key,
-      required this.text,
-      required this.onPressed})
-      : super(key: key);
+  const ButtonField({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+    this.color,
+  }) : super(key: key);
 
   final String text;
   final Function() onPressed;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +18,7 @@ class ButtonField extends StatelessWidget {
       // width: 346,
       height: 50,
       decoration: BoxDecoration(
-        color: const Color(0xFF5052A2),
+        color: color,
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextButton(

@@ -1,5 +1,5 @@
 class DropDownListItem {
-  // final String value;
   final String text;
-  DropDownListItem({required this.text});
+  final int value;
+  DropDownListItem({required this.text, required this.value, });
 }

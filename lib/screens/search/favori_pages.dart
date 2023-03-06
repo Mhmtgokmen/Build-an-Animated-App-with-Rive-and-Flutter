@@ -71,10 +71,9 @@ class _FavoriPageState extends State<FavoriPage> {
                 shrinkWrap: true,
                 controller: controller,
                 itemCount: widget.menu[index].subMenuItems.length,
-                itemBuilder: (context, index) => ListTile(
-                  isThreeLine:true,
+                itemBuilder: (context, subMenuIndex) => ListTile(
                   title: Text(
-                    widget.menu[index].subMenuItems[index].menuName,
+                    widget.menu[index].subMenuItems[subMenuIndex].menuName,
                   ),
                 ),
               ),

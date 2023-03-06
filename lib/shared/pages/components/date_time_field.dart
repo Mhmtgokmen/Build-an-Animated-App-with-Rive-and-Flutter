@@ -4,14 +4,20 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeField extends StatefulWidget {
-  const DateTimeField({super.key, required this.labelText});
+  DateTimeField({
+    super.key,
+    required this.labelText,
+    required this.selectedDate,
+    required this.callback,
+  });
   final String labelText;
+  late DateTime? selectedDate;
+  late Function callback;
   @override
   State<DateTimeField> createState() => _DateTimeFieldState();
 }
 
 class _DateTimeFieldState extends State<DateTimeField> {
-  DateTime? selectedDate;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,9 +34,12 @@ class _DateTimeFieldState extends State<DateTimeField> {
             child: Icon(Iconsax.note_favorite),
           ),
         ),
-        // onDateSelected: (DateTime value){
-        //   selectedDate = value;
-        // },
+        use24hFormat: true,
+        initialValue: widget.selectedDate,
+        onDateSelected: (DateTime? value) {
+          widget.selectedDate = value;
+          widget.callback(widget.selectedDate);
+        },
         dateFormat: DateFormat('y/M/d'),
         mode: DateTimeFieldPickerMode.date,
         autovalidateMode: AutovalidateMode.always,

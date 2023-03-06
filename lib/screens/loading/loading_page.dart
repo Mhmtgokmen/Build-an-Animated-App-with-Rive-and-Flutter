@@ -19,7 +19,7 @@ class LoadingPage extends StatefulWidget {
     filter = FilterModel(
       filter: LoadingFilterModel(),
       queryInfo: QueryInfoModel(
-        orderby: "LoadingId",
+        orderby: "-LoadingId",
         pager: PagerModel(
           currentPage: currentPage,
           pageSize: pageSize,
@@ -192,7 +192,7 @@ class _LoadingPageState extends State<LoadingPage>
                                       "Durum: ${item.status}",
                                     ),
                                     Text(
-                                      "Sorumlu: ${item.responsibleName = null ?? ""}",
+                                      "Sorumlu: ${item.responsibleName ?? ""}",
                                     ),
                                     Text(
                                       "Yükleme Tarihi: ${item.loadingDate}",
@@ -207,11 +207,6 @@ class _LoadingPageState extends State<LoadingPage>
                                 ),
                               ),
                             )
-                        // ListTile(
-                        //   leading: Text(item.loadingId.toString()),
-                        //   title: Text(item.representativeName),
-                        //   subtitle: Text(item.customerName),
-                        // ),
                         ),
                   ),
                 ),
