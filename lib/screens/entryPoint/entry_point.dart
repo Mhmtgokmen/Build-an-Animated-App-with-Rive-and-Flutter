@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/events/sidebar_page_change.dart';
+import 'package:rive_animation/shared/session_manager.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
 import '../../model/menu.dart';
@@ -96,7 +97,7 @@ class _EntryPointState extends State<EntryPoint>
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 0 : -288,
             top: 0,
-            child: SideBar(),
+            child: SideBar(session: SessionManager.getSessionId()),
           ),
           Transform(
             alignment: Alignment.center,

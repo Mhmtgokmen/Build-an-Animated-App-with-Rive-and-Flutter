@@ -16,6 +16,7 @@ class SideMenu extends StatelessWidget {
   final VoidCallback press;
   final ValueChanged<Artboard> riveOnInit;
   final Menu selectedMenu;
+  
 
   @override
   Widget build(BuildContext context) {
