@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rive_animation/model/loading_model.dart';
+import 'package:rive_animation/service/loading_service.dart';
 import 'package:rive_animation/shared/pages/components/button_field.dart';
 import 'package:rive_animation/shared/pages/components/date_time_field.dart';
 import 'package:rive_animation/shared/pages/components/drop_down_field.dart';
@@ -229,20 +230,23 @@ class _LoadingDialogState extends State<LoadingDialog> {
             ButtonField(
               text: "Güncelle",
               color: const Color(0xFF5052A2),
-              onPressed: () {
+              onPressed: () async {
                 print(selectedConTypeValue?.value);
                 print(selectedDate);
-                // widget.item.description = descriptionTextController.text;
-                // widget.item.note = noteTextController.text;
-                // widget.item.containerType = selectedConTypeValue as int;
-                // widget.item.loadingDate = selectedDate;
-                // widget.item.quantity =
-                //     int.parse(containerQuantityController.text);
-                // widget.item.status = selectedStatusValue as int;
-                // widget.item.responsibleName =
-                //     responsibleNameTextController.text;
-                // widget.item.cbmLimit = cbmLimitTextController.text as double;
-                // widget.item.kgLimit = kgLimitTextController.text as double;
+                LoadingService loadingService = LoadingService();
+                // var result = await loadingService.saveLoading(
+                //   widget.item.description = descriptionTextController.text,
+                //   widget.item.note = noteTextController.text,
+                //   widget.item.containerType = selectedConTypeValue as int,
+                //   widget.item.loadingDate = selectedDate!,
+                //   widget.item.quantity =
+                //       int.parse(containerQuantityController.text),
+                //   widget.item.status = selectedStatusValue as int,
+                //   widget.item.responsibleName =
+                //       responsibleNameTextController.text,
+                //   widget.item.cbmLimit = cbmLimitTextController.text as double,
+                //   widget.item.kgLimit = kgLimitTextController.text as double,
+                // );
               },
             ),
           ],

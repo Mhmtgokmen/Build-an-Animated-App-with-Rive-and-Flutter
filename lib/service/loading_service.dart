@@ -46,4 +46,46 @@ class LoadingService {
       throw Exception(e);
     }
   }
+
+  Future<ReturnInfo> saveLoading(
+    String description,
+    String note,
+    int containerType,
+    DateTime loadingDate,
+    int quantity,
+    int status,
+    String responsibleName,
+    double cbmLimit,
+    double kgLimit,
+  ) async {
+    try {
+      String body = json.encode({
+        "description": description,
+        "note": note,
+        "containerType": containerType,
+        "loadingDate": loadingDate,
+        "quantity": quantity,
+        "status": status,
+        "responsibleName": responsibleName,
+        "cbmLimit": cbmLimit,
+        "kgLimit": kgLimit,
+      });
+      final response = await http.post(
+        Uri.parse(
+            "${ApiConstants.apiUrl}$service/SaveLoading?session=${SessionManager.getSessionId()}"),
+        headers: _headers,
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        String responseBody = response.body;
+        var responseData =
+            ReturnInfo.fromJson(json.decode(responseBody), (data) => data);
+        return responseData;
+      } else {
+        throw Exception('Faild to get data');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

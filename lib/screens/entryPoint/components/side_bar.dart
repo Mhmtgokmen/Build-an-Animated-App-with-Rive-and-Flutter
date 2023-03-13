@@ -3,7 +3,6 @@ import 'package:rive_animation/events/sidebar_page_change.dart';
 import 'package:rive_animation/model/user_menu_info_model.dart';
 import 'package:rive_animation/service/login_service.dart';
 import 'package:rive_animation/shared/return_info.dart';
-import 'package:rive_animation/shared/session_manager.dart';
 
 import '../../../model/menu.dart';
 import '../../../utils/rive_utils.dart';
@@ -14,7 +13,7 @@ class SideBar extends StatefulWidget {
   SideBar({
     super.key, required this.session,
   }) {
-    // loginService = LoginService();
+    loginService = LoginService();
   }
   final String session;
   late int currentIndex;
@@ -77,70 +76,70 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
                   name: "Abu Anwar",
                   bio: "YouTuber",
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.menu.length,
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, top: 32, bottom: 16),
-                        child: Text(
-                          widget.menu[index].menuName.toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white70),
-                        ),
-                      ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.menu[index].subMenuItems.length,
-                        itemBuilder: (context, subMenuIndex) => ListTile(
-                          title: Text(
-                            widget.menu[index].subMenuItems[subMenuIndex]
-                                .menuName,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
-                //   child: Text(
-                //     "Browse".toUpperCase(),
-                //     style: Theme.of(context)
-                //         .textTheme
-                //         .titleMedium!
-                //         .copyWith(color: Colors.white70),
-                //   ),
-                // ),
-                // ...sidebarMenus
-                //     .asMap()
-                //     .map(
-                //       (i, menu) => MapEntry(
-                //         i,
-                //         SideMenu(
-                //           menu: menu,
-                //           selectedMenu: selectedSideMenu,
-                //           press: () {
-                //             RiveUtils.chnageSMIBoolState(menu.rive.status!);
-                //             setState(() {
-                //               selectedSideMenu = menu;
-                //               SideBarChangeEvent.getInstance()
-                //                   .broadcast(IndexEventArg(i));
-                //             });
-                //           },
-                //           riveOnInit: (artboard) {
-                //             menu.rive.status = RiveUtils.getRiveInput(artboard,
-                //                 stateMachineName: menu.rive.stateMachineName);
-                //           },
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: widget.menu.length,
+                //   itemBuilder: (context, index) => Column(
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.only(
+                //             left: 24, top: 32, bottom: 16),
+                //         child: Text(
+                //           widget.menu[index].menuName.toUpperCase(),
+                //           style: Theme.of(context)
+                //               .textTheme
+                //               .titleMedium!
+                //               .copyWith(color: Colors.white70),
                 //         ),
                 //       ),
-                //     )
-                //     .values
-                //     .toList(),
+                //       ListView.builder(
+                //         shrinkWrap: true,
+                //         itemCount: widget.menu[index].subMenuItems.length,
+                //         itemBuilder: (context, subMenuIndex) => ListTile(
+                //           title: Text(
+                //             widget.menu[index].subMenuItems[subMenuIndex]
+                //                 .menuName,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+                  child: Text(
+                    "Browse".toUpperCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Colors.white70),
+                  ),
+                ),
+                ...sidebarMenus
+                    .asMap()
+                    .map(
+                      (i, menu) => MapEntry(
+                        i,
+                        SideMenu(
+                          menu: menu,
+                          selectedMenu: selectedSideMenu,
+                          press: () {
+                            RiveUtils.chnageSMIBoolState(menu.rive.status!);
+                            setState(() {
+                              selectedSideMenu = menu;
+                              SideBarChangeEvent.getInstance()
+                                  .broadcast(IndexEventArg(i));
+                            });
+                          },
+                          riveOnInit: (artboard) {
+                            menu.rive.status = RiveUtils.getRiveInput(artboard,
+                                stateMachineName: menu.rive.stateMachineName);
+                          },
+                        ),
+                      ),
+                    )
+                    .values
+                    .toList(),
                 Padding(
                   padding: const EdgeInsets.only(left: 24, top: 40, bottom: 16),
                   child: Text(
