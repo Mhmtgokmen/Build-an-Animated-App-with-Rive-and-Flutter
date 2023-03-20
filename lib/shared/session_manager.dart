@@ -1,5 +1,13 @@
+import 'package:rive_animation/shared/user_info.dart';
+
 class SessionManager {
-  static String getSessionId() {
-    return "402a5971-931c-4367-a22f-44897f54e4d1";
+  static late UserInfo ui;
+  static UserInfo currentUserInfo() {
+    return SessionManager.ui;
+    // return "2ad1e65f-3691-4418-a6d3-df11e97e659a";
+  }
+
+  static void setCurrentUser(UserInfo userInfo) {
+    SessionManager.ui = userInfo;
   }
 }

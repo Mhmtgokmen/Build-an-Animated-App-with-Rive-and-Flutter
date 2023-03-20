@@ -28,7 +28,8 @@ class _DropDownFieldState extends State<DropDownField> {
       ),
       child: DropdownButtonFormField(
         value: widget.value,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
+          labelText: widget.hintText,
           border: InputBorder.none,
           fillColor: Colors.white,
         ),

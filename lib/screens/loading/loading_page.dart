@@ -14,7 +14,7 @@ import 'package:rive_animation/shared/return_info.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
 class LoadingPage extends StatefulWidget {
-  LoadingPage({super.key, required this.session}) {
+  LoadingPage({super.key}) {
     loadingService = LoadingService();
     filter = FilterModel(
       filter: LoadingFilterModel(),
@@ -31,7 +31,6 @@ class LoadingPage extends StatefulWidget {
     );
   }
 
-  final String session;
   late FilterModel<LoadingFilterModel> filter;
   late ReturnInfo<dynamic> returnInfo;
   late LoadingService loadingService;

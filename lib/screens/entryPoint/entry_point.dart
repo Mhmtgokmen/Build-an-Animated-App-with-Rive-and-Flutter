@@ -97,7 +97,7 @@ class _EntryPointState extends State<EntryPoint>
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 0 : -288,
             top: 0,
-            child: SideBar(session: SessionManager.getSessionId()),
+            child: SideBar(),
           ),
           Transform(
             alignment: Alignment.center,

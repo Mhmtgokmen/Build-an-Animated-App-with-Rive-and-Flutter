@@ -4,6 +4,7 @@ import 'package:rive_animation/constants/api_constants.dart';
 import 'package:rive_animation/model/user_menu_info_model.dart';
 import 'package:rive_animation/shared/return_info.dart';
 import 'package:http/http.dart' as http;
+import 'package:rive_animation/shared/session_manager.dart';
 import 'package:rive_animation/shared/user_info.dart';
 
 class LoginService {
@@ -36,13 +37,12 @@ class LoginService {
     }
   }
 
-  Future<ReturnInfo> getUserMenuInfo(String sessionId) async {
+  Future<ReturnInfo> getUserMenuInfo() async {
     try {
-      String body = json.encode({"session": sessionId});
+      // String body = json.encode({"session": sessionId});
       final response = await http.post(
-        Uri.parse("${ApiConstants.apiUrl}$service/GetUserMenuInfo?session=$sessionId"),
+        Uri.parse("${ApiConstants.apiUrl}$service/GetUserMenuInfo?session=${SessionManager.ui.sessionId}"),
         headers: _headers,
-        body: body,
       );
 
       if (response.statusCode == 200) {

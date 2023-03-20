@@ -24,7 +24,7 @@ class LoadingItemService {
       });
       final response = await http.post(
         Uri.parse(
-            "${ApiConstants.apiUrl}$service/GetLoadingItemList=${SessionManager.getSessionId()}"),
+            "${ApiConstants.apiUrl}$service/GetLoadingItemList=${SessionManager.ui.sessionId}"),
         headers: _headers,
         body: body,
       );

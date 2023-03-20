@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'loading_model.g.dart';
@@ -71,5 +73,5 @@ class LoadingModel {
   factory LoadingModel.fromJson(Map<String, dynamic> json) =>
       _$LoadingModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoadingModelToJson(this);
+  Map<String, dynamic> toJson(JsonCodec json) => _$LoadingModelToJson(this);
 }

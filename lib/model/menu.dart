@@ -3,7 +3,6 @@ import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/screens/search/favori_pages.dart';
 import 'package:rive_animation/screens/search/help_page.dart';
 import 'package:rive_animation/screens/loading/loading_page.dart';
-import 'package:rive_animation/shared/session_manager.dart';
 
 import 'rive_model.dart';
 
@@ -13,7 +12,42 @@ class Menu {
 
   Menu({required this.title, required this.rive});
 }
-
+// Menu(
+//     userMenu: UserMenuInfoModel(
+//         menuName: "SHIPMENT",
+//         menuIcon: "money",
+//         state: "shipment",
+//         bedgeValue: 0,
+//         translateName: "MAINMENU.SHIPMENT",
+//         subMenuItems: [
+//           SubMenuItemModel(
+//               menuName: "LOADING",
+//               status: "loading",
+//               translateName: "LOADING.LOADINGMENU")
+//         ]),
+//     rive: RiveModel(
+//         src: "assets/RiveAssets/icons.riv",
+//         artboard: "HOME",
+//         stateMachineName: "HOME_interactivity"),
+//   ),
+//   Menu(
+//     userMenu: UserMenuInfoModel(
+//         menuName: "QUALITY",
+//         menuIcon: "assignment_turned_in",
+//         state: "quality",
+//         bedgeValue: 0,
+//         translateName: "MAINMENU.QUALITY",
+//         subMenuItems: [
+//           SubMenuItemModel(
+//               menuName: "QUALITYCONTROL",
+//               status: "qualitycontrol",
+//               translateName: "QUALITYCONTROL.QUALITYCONTROLMENU")
+//         ]),
+//     rive: RiveModel(
+//         src: "assets/RiveAssets/icons.riv",
+//         artboard: "SEARCH",
+//         stateMachineName: "SEARCH_Interactivity"),
+//   ),
 List<Menu> sidebarMenus = [
   Menu(
     title: "Home",
@@ -101,8 +135,8 @@ List<Menu> bottomNavItems = [
 
 List pages = [
   const HomePage(),
-  LoadingPage(session: SessionManager.getSessionId()),
-  FavoriPage(session: SessionManager.getSessionId()),
+  LoadingPage(),
+  FavoriPage(),
   const HelpPage(),
 ];
 
@@ -116,10 +150,10 @@ class PageManager {
       return const HomePage();
     }
     if (index == 1) {
-      return LoadingPage(session: SessionManager.getSessionId());
+      return LoadingPage();
     }
     if (index == 2) {
-      return FavoriPage(session: SessionManager.getSessionId());
+      return FavoriPage();
     } else {
       return const HelpPage();
     }

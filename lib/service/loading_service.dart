@@ -23,7 +23,7 @@ class LoadingService {
       });
       final response = await http.post(
         Uri.parse(
-            "${ApiConstants.apiUrl}$service/GetLoadingList?session=${SessionManager.getSessionId()}"),
+            "${ApiConstants.apiUrl}$service/GetLoadingList?session=${SessionManager.ui.sessionId}"),
         headers: _headers,
         body: body,
       );
@@ -47,34 +47,35 @@ class LoadingService {
     }
   }
 
-  Future<ReturnInfo> saveLoading(
-    String description,
-    String note,
-    int containerType,
-    DateTime loadingDate,
-    int quantity,
-    int status,
-    String responsibleName,
-    double cbmLimit,
-    double kgLimit,
-  ) async {
+  Future<ReturnInfo> saveLoading(LoadingModel saveData) async {
     try {
-      String body = json.encode({
-        "description": description,
-        "note": note,
-        "containerType": containerType,
-        "loadingDate": loadingDate,
-        "quantity": quantity,
-        "status": status,
-        "responsibleName": responsibleName,
-        "cbmLimit": cbmLimit,
-        "kgLimit": kgLimit,
-      });
+      String body = json.encode(saveData.toJson(const JsonCodec()));
       final response = await http.post(
         Uri.parse(
-            "${ApiConstants.apiUrl}$service/SaveLoading?session=${SessionManager.getSessionId()}"),
+            "${ApiConstants.apiUrl}$service/SaveLoading?session=${SessionManager.ui.sessionId}"),
         headers: _headers,
         body: body,
+      );
+      if (response.statusCode == 200) {
+        String responseBody = response.body;
+        var responseData =
+            ReturnInfo.fromJson(json.decode(responseBody), (data) => data);
+        return responseData;
+      } else {
+        throw Exception('Faild to get data');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<ReturnInfo> deleteLoading(LoadingModel deleteData) async {
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "${ApiConstants.apiUrl}$service/DeleteLoading?session=${SessionManager.ui.sessionId}"),
+        headers: _headers,
+        body: json.encode(deleteData.toJson(const JsonCodec())),
       );
       if (response.statusCode == 200) {
         String responseBody = response.body;

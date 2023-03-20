@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
 class EditTextField extends StatelessWidget {
-  const EditTextField({
+  EditTextField({
     Key? key,
     required this.labelText,
     this.top = 16,
-    this.controller,
     this.left = 16,
     this.right = 16,
     this.isReadOnly = false,
-  }) : super(key: key);
+    this.onChange,
+    required this.value,
+  }) : super(key: key) {
+    controller = TextEditingController();
+    controller.text = value;
+  }
 
-  final TextEditingController? controller;
+  late TextEditingController controller;
   final String labelText;
   final double top;
   final double left;
   final double right;
   final bool isReadOnly;
+  final Function(String)? onChange;
+  final String value;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,6 +31,7 @@ class EditTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
+        onChanged: onChange,
         readOnly: isReadOnly,
         controller: controller,
         // maxLines: 2,

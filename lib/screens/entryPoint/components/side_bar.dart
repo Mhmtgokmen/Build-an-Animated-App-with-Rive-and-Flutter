@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rive/src/controllers/state_machine_controller.dart';
 import 'package:rive_animation/events/sidebar_page_change.dart';
 import 'package:rive_animation/model/user_menu_info_model.dart';
 import 'package:rive_animation/service/login_service.dart';
@@ -11,13 +12,14 @@ import 'side_menu.dart';
 
 class SideBar extends StatefulWidget {
   SideBar({
-    super.key, required this.session,
+    super.key,
   }) {
     loginService = LoginService();
+    menu = [];
   }
-  final String session;
   late int currentIndex;
   late List<UserMenuInfoModel> menu = [];
+  //  late Menu menu;
   late ReturnInfo<dynamic> returnInfo;
   late LoginService loginService;
   @override
@@ -27,11 +29,14 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
   SideBarChangeEvent sideBarChangeEvent = SideBarChangeEvent();
   Menu selectedSideMenu = sidebarMenus.first;
+  // UserMenuInfoModel? selectedSideMenu;
+  final ScrollController controller = ScrollController();
   bool isSideBarOpen = false;
-  // late SMIBool isMenuOpenInput;
+  late SMIBool isMenuOpenInput;
   late AnimationController _animationController;
   @override
   void initState() {
+    getdata();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(
@@ -40,12 +45,11 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
         },
       );
     super.initState();
-    getdata();
   }
 
   Future<void> getdata() async {
-    widget.menu = (await widget.loginService.getUserMenuInfo(widget.session)).data;
-    setState(() {});
+    widget.menu = (await widget.loginService.getUserMenuInfo()).data;
+    // setState(() {});
   }
 
   @override
@@ -78,22 +82,14 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
                 ),
                 // ListView.builder(
                 //   shrinkWrap: true,
+                //   controller: controller,
                 //   itemCount: widget.menu.length,
-                //   itemBuilder: (context, index) => Column(
+                //   itemBuilder: (context, index) => ExpansionTile(
+                //     title: Text(widget.menu[index].menuName),
                 //     children: [
-                //       Padding(
-                //         padding: const EdgeInsets.only(
-                //             left: 24, top: 32, bottom: 16),
-                //         child: Text(
-                //           widget.menu[index].menuName.toUpperCase(),
-                //           style: Theme.of(context)
-                //               .textTheme
-                //               .titleMedium!
-                //               .copyWith(color: Colors.white70),
-                //         ),
-                //       ),
                 //       ListView.builder(
                 //         shrinkWrap: true,
+                //         controller: controller,
                 //         itemCount: widget.menu[index].subMenuItems.length,
                 //         itemBuilder: (context, subMenuIndex) => ListTile(
                 //           title: Text(
@@ -105,6 +101,34 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
                 //     ],
                 //   ),
                 // ),
+                // ...widget.menu
+                //     .asMap()
+                //     .map(
+                //       (i, menu) => MapEntry(
+                //         i,
+                //         SideMenu(
+                //           menu: menu,
+                //           press: () {
+                //             RiveUtils.chnageSMIBoolState(
+                //                 menu.state as SMIBool);
+                //             setState(() {
+                //               selectedSideMenu = menu;
+                //               SideBarChangeEvent.getInstance()
+                //                   .broadcast(IndexEventArg(i));
+                //             });
+                //           },
+                //           riveOnInit: (artboard) {
+                //             // menu.rive.status = RiveUtils.getRiveInput(
+                //             //     artboard,
+                //             //     stateMachineName:
+                //             //         menu.rive.stateMachineName);
+                //           },
+                //           selectedMenu: selectedSideMenu!,
+                //         ),
+                //       ),
+                //     )
+                //     .values
+                //     .toList(),
                 Padding(
                   padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
                   child: Text(
@@ -140,32 +164,32 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
                     )
                     .values
                     .toList(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, top: 40, bottom: 16),
-                  child: Text(
-                    "History".toUpperCase(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: Colors.white70),
-                  ),
-                ),
-                ...sidebarMenus2
-                    .map((menu) => SideMenu(
-                          menu: menu,
-                          selectedMenu: selectedSideMenu,
-                          press: () {
-                            RiveUtils.chnageSMIBoolState(menu.rive.status!);
-                            setState(() {
-                              selectedSideMenu = menu;
-                            });
-                          },
-                          riveOnInit: (artboard) {
-                            menu.rive.status = RiveUtils.getRiveInput(artboard,
-                                stateMachineName: menu.rive.stateMachineName);
-                          },
-                        ))
-                    .toList(),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 24, top: 40, bottom: 16),
+                //   child: Text(
+                //     "History".toUpperCase(),
+                //     style: Theme.of(context)
+                //         .textTheme
+                //         .titleMedium!
+                //         .copyWith(color: Colors.white70),
+                //   ),
+                // ),
+                // ...sidebarMenus2
+                //     .map((menu) => SideMenu(
+                //           menu: menu,
+                //           selectedMenu: selectedSideMenu,
+                //           press: () {
+                //             RiveUtils.chnageSMIBoolState(menu.rive.status!);
+                //             setState(() {
+                //               selectedSideMenu = menu;
+                //             });
+                //           },
+                //           riveOnInit: (artboard) {
+                //             menu.rive.status = RiveUtils.getRiveInput(artboard,
+                //                 stateMachineName: menu.rive.stateMachineName);
+                //           },
+                //         ))
+                //     .toList(),
               ],
             ),
           ),

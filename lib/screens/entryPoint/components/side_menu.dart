@@ -47,7 +47,8 @@ class SideMenu extends StatelessWidget {
                 height: 36,
                 width: 36,
                 child: RiveAnimation.asset(
-                  menu.rive.src,
+                  // "assets/RiveAssets/icons.riv",
+                   menu.rive.src,
                   artboard: menu.rive.artboard,
                   onInit: riveOnInit,
                 ),

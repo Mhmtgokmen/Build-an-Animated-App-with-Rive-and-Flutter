@@ -1,3 +1,4 @@
+import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rive_animation/model/loading_model.dart';
@@ -7,6 +8,7 @@ import 'package:rive_animation/shared/pages/components/date_time_field.dart';
 import 'package:rive_animation/shared/pages/components/drop_down_field.dart';
 import 'package:rive_animation/shared/pages/components/drop_down_list_item.dart';
 import 'package:rive_animation/shared/pages/components/edit_text_field.dart';
+import 'package:rive_animation/shared/utilities.dart';
 
 class LoadingDialog extends StatefulWidget {
   const LoadingDialog({super.key, required this.item});
@@ -16,6 +18,7 @@ class LoadingDialog extends StatefulWidget {
 }
 
 class _LoadingDialogState extends State<LoadingDialog> {
+  LoadingService loadingService = LoadingService();
   final descriptionTextController = TextEditingController();
   final noteTextController = TextEditingController();
   final containerQuantityController = TextEditingController();
@@ -72,148 +75,178 @@ class _LoadingDialogState extends State<LoadingDialog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                Container(
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 10,
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFF000000),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const SizedBox(width: 90),
+                  Text(
+                    "Güncelleme - ${widget.item.loadingId}",
+                    style: const TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF000000),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 10,
-                    vertical: 10,
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFF000000),
-                        ),
-                        onPressed: () => Navigator.pop(context),
+                      EditTextField(
+                        labelText: "Acıklama",
+                        top: 5,
+                        value: widget.item.description,
+                        onChange: (event) {
+                          widget.item.description = event;
+                        },
                       ),
-                      const SizedBox(width: 90),
-                      Text(
-                        "Güncelleme - ${widget.item.loadingId}",
-                        style: const TextStyle(
-                          fontSize: 17,
-                          color: Color(0xFF000000),
-                        ),
+                      EditTextField(
+                        labelText: "Not",
+                        value: widget.item.note,
+                        onChange: (event) {
+                          widget.item.note = event;
+                        },
+                      ),
+                      DropDownField(
+                        hintText: "Konteyner Tipi",
+                        value: selectedConTypeValue,
+                        dropdownItems: containerTypeDropDownItems,
+                        callback: (value) {
+                          setState(() {
+                            selectedConTypeValue = value;
+                            widget.item.containerType =
+                                selectedConTypeValue!.value;
+                          });
+                        },
+                      ),
+                      DateTimeField(
+                        labelText: "Yükleme Tarihi",
+                        selectedDate: selectedDate,
+                        callback: (value) {
+                          selectedDate = value;
+                          widget.item.loadingDate = value;
+                        },
+                      ),
+                      EditTextField(
+                        labelText: "Konteyner Adedi",
+                        value: widget.item.quantity.toString(),
+                        onChange: (event) {
+                          widget.item.quantity = event as int;
+                        },
+                      ),
+                      DropDownField(
+                        hintText: "Durum",
+                        value: selectedStatusValue,
+                        dropdownItems: statusDropDownItems,
+                        callback: (value) {
+                          setState(() {
+                            selectedStatusValue = value;
+                            widget.item.status = selectedStatusValue!.value;
+                          });
+                        },
+                      ),
+                      EditTextField(
+                        labelText: "Sorumlu",
+                        value: widget.item.responsibleName,
+                        onChange: (event) {
+                          widget.item.responsibleName = event;
+                        },
+                      ),
+                      EditTextField(
+                        labelText: "CBM Limit",
+                        value: widget.item.cbmLimit.round().toString(),
+                        onChange: (event) {
+                          widget.item.cbmLimit = double.parse(event);
+                        },
+                      ),
+                      EditTextField(
+                        labelText: "KG Limit",
+                        value: widget.item.kgLimit.round().toString(),
+                        onChange: (event) {
+                          widget.item.kgLimit = double.parse(event);
+                        },
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: EditTextField(
+                              labelText: "Oluşturulma",
+                              right: 5,
+                              isReadOnly: true,
+                              value: DateFormat('y/M/d - kk:mm')
+                                  .format(widget.item.createdDate),
+                              onChange: (event) {
+                                widget.item.createdDate = event as DateTime;
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: EditTextField(
+                              labelText: "Oluşturan",
+                              left: 5,
+                              isReadOnly: true,
+                              value: widget.item.createdUserText,
+                              onChange: (event) {
+                                widget.item.createdUserText = event;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: EditTextField(
+                              labelText: "Güncelleme",
+                              right: 5,
+                              isReadOnly: true,
+                              value: DateFormat('y/M/d - kk:mm')
+                                  .format(widget.item.updatedDate),
+                              onChange: (event) {
+                                widget.item.updatedDate = event as DateTime;
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: EditTextField(
+                              labelText: "Güncelleyen",
+                              left: 5,
+                              isReadOnly: true,
+                              value: widget.item.updatedUserText,
+                              onChange: (event) {
+                                widget.item.updatedUserText = event;
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      child: Column(
-                        children: [
-                          EditTextField(
-                            labelText: "Acıklama",
-                            top: 5,
-                            controller: descriptionTextController,
-                          ),
-                          EditTextField(
-                            labelText: "Not",
-                            controller: noteTextController,
-                          ),
-                          DropDownField(
-                            hintText: "Konteyner Tipi",
-                            value: selectedConTypeValue,
-                            dropdownItems: containerTypeDropDownItems,
-                            callback: (value) {
-                              setState(() {
-                                selectedConTypeValue = value;
-                              });
-                            },
-                          ),
-                          DateTimeField(
-                            labelText: "Yükleme Tarihi",
-                            selectedDate: selectedDate,
-                            callback: (value) {
-                              selectedDate = value;
-                            },
-                          ),
-                          EditTextField(
-                            labelText: "Konteyner Adedi",
-                            controller: containerQuantityController,
-                          ),
-                          DropDownField(
-                            hintText: "Durum",
-                            value: selectedStatusValue,
-                            dropdownItems: statusDropDownItems,
-                            callback: (value) {
-                              setState(() {
-                                selectedStatusValue = value;
-                              });
-                            },
-                          ),
-                          EditTextField(
-                            labelText: "Sorumlu",
-                            controller: responsibleNameTextController,
-                          ),
-                          EditTextField(
-                            labelText: "CBM Limit",
-                            controller: cbmLimitTextController,
-                          ),
-                          EditTextField(
-                            labelText: "KG Limit",
-                            controller: kgLimitTextController,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: EditTextField(
-                                  labelText: "Oluşturulma",
-                                  right: 5,
-                                  isReadOnly: true,
-                                  controller: createdDateTextController,
-                                ),
-                              ),
-                              Expanded(
-                                child: EditTextField(
-                                  labelText: "Oluşturan",
-                                  left: 5,
-                                  isReadOnly: true,
-                                  controller: createdUserTextController,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: EditTextField(
-                                  labelText: "Güncelleme",
-                                  right: 5,
-                                  isReadOnly: true,
-                                  controller: updatedDateTextController,
-                                ),
-                              ),
-                              Expanded(
-                                child: EditTextField(
-                                  labelText: "Güncelleyen",
-                                  left: 5,
-                                  isReadOnly: true,
-                                  controller: updatedUserTextController,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 25),
@@ -222,8 +255,16 @@ class _LoadingDialogState extends State<LoadingDialog> {
             ButtonField(
               text: "Sil",
               color: const Color(0xFFff3d57),
-              onPressed: () {
-                print(selectedStatusValue?.value);
+              onPressed: () async {
+                var result = await loadingService.deleteLoading(widget.item);
+                result.isSuccess
+                    // ignore: use_build_context_synchronously
+                    ? Utilities.showMessage(context: context, message: "Deleted")
+                    // ignore: use_build_context_synchronously
+                    : Utilities.showMessage(
+                        context: context,
+                        message: result.errorMessage!,
+                      );
               },
             ),
             const Spacer(),
@@ -231,22 +272,15 @@ class _LoadingDialogState extends State<LoadingDialog> {
               text: "Güncelle",
               color: const Color(0xFF5052A2),
               onPressed: () async {
-                print(selectedConTypeValue?.value);
-                print(selectedDate);
-                LoadingService loadingService = LoadingService();
-                // var result = await loadingService.saveLoading(
-                //   widget.item.description = descriptionTextController.text,
-                //   widget.item.note = noteTextController.text,
-                //   widget.item.containerType = selectedConTypeValue as int,
-                //   widget.item.loadingDate = selectedDate!,
-                //   widget.item.quantity =
-                //       int.parse(containerQuantityController.text),
-                //   widget.item.status = selectedStatusValue as int,
-                //   widget.item.responsibleName =
-                //       responsibleNameTextController.text,
-                //   widget.item.cbmLimit = cbmLimitTextController.text as double,
-                //   widget.item.kgLimit = kgLimitTextController.text as double,
-                // );
+                var result = await loadingService.saveLoading(widget.item);
+                result.isSuccess
+                    // ignore: use_build_context_synchronously
+                    ? Utilities.showMessage(context: context, message: "Saved")
+                    // ignore: use_build_context_synchronously
+                    : Utilities.showMessage(
+                        context: context,
+                        message: result.errorMessage!,
+                      );
               },
             ),
           ],
