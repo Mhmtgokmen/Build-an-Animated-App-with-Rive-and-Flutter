@@ -73,7 +73,7 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const EntryPoint(),
+                  builder: (context) =>  EntryPoint(),
                 ),
               );
             } else {

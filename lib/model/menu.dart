@@ -12,42 +12,7 @@ class Menu {
 
   Menu({required this.title, required this.rive});
 }
-// Menu(
-//     userMenu: UserMenuInfoModel(
-//         menuName: "SHIPMENT",
-//         menuIcon: "money",
-//         state: "shipment",
-//         bedgeValue: 0,
-//         translateName: "MAINMENU.SHIPMENT",
-//         subMenuItems: [
-//           SubMenuItemModel(
-//               menuName: "LOADING",
-//               status: "loading",
-//               translateName: "LOADING.LOADINGMENU")
-//         ]),
-//     rive: RiveModel(
-//         src: "assets/RiveAssets/icons.riv",
-//         artboard: "HOME",
-//         stateMachineName: "HOME_interactivity"),
-//   ),
-//   Menu(
-//     userMenu: UserMenuInfoModel(
-//         menuName: "QUALITY",
-//         menuIcon: "assignment_turned_in",
-//         state: "quality",
-//         bedgeValue: 0,
-//         translateName: "MAINMENU.QUALITY",
-//         subMenuItems: [
-//           SubMenuItemModel(
-//               menuName: "QUALITYCONTROL",
-//               status: "qualitycontrol",
-//               translateName: "QUALITYCONTROL.QUALITYCONTROLMENU")
-//         ]),
-//     rive: RiveModel(
-//         src: "assets/RiveAssets/icons.riv",
-//         artboard: "SEARCH",
-//         stateMachineName: "SEARCH_Interactivity"),
-//   ),
+
 List<Menu> sidebarMenus = [
   Menu(
     title: "Home",

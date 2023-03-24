@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/events/sidebar_page_change.dart';
+import 'package:rive_animation/model/user_menu_info_model.dart';
+import 'package:rive_animation/service/login_service.dart';
 import 'package:rive_animation/shared/session_manager.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
@@ -13,8 +15,12 @@ import 'components/menu_btn.dart';
 import 'components/side_bar.dart';
 
 class EntryPoint extends StatefulWidget {
-  const EntryPoint({super.key});
+  EntryPoint({super.key}) {
+    loginService = LoginService();
+  }
 
+  late LoginService loginService;
+  late List<UserMenuInfoModel> menu = [];
   @override
   State<EntryPoint> createState() => _EntryPointState();
 }
@@ -57,7 +63,13 @@ class _EntryPointState extends State<EntryPoint>
       toggleSideBarMenu();
       PageManager.renewPageByIndex(currentIndex);
     });
+
     super.initState();
+  }
+
+  Future<void> getdata() async {
+    widget.menu = (await widget.loginService.getUserMenuInfo()).data;
+    // setState(() {});
   }
 
   @override
@@ -97,7 +109,9 @@ class _EntryPointState extends State<EntryPoint>
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 0 : -288,
             top: 0,
-            child: SideBar(),
+            child: SideBar(
+              menu: widget.menu,
+            ),
           ),
           Transform(
             alignment: Alignment.center,
@@ -126,6 +140,7 @@ class _EntryPointState extends State<EntryPoint>
             child: MenuBtn(
               press: () {
                 toggleSideBarMenu();
+                getdata();
               },
               riveOnInit: (artboard) {
                 final controller = StateMachineController.fromArtboard(

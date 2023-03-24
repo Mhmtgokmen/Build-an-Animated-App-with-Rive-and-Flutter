@@ -1,0 +1,32 @@
+{
+    "MAINMENU": {
+        "SHIPMENT": "Sevkiyat",
+        "QUALITY": "Kalite",
+        "WAREHOUSE": "Depo",
+        "EMPLOYEE": "İnsan Kaynakları"
+    },
+    "LOADING": {
+        "LOADINGMENU": "Yüklemeler"
+    },
+    "QUALITYCONTROL": {
+        "QUALITYCONTROLMENU":"Kalite Kontrolleri"
+    },
+    "STOCKCOUNT":{
+        "STOCKCOUNTMENU":"Stok Miktarları"
+
+    },
+    "STOCKTRAN":{
+        "STOCKTRANMENU":"Stok Hareketleri"
+    },
+    "TRANSACTION":{
+        "TRANSACTIONMENU":"Giriş - Çıkış"
+        
+    },
+    "OVERTIME":{
+        "OVERTIMEMENU":"Fazla Mesai"
+    },
+    "PERMISSION":{
+        "PERMISSIONMENU":"İzinler"
+    }
+
+}

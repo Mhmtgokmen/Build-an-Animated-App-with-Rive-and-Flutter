@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rive_animation/screens/entryPoint/entry_point.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:rive_animation/screens/onboding/onboding_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  var delegate = await LocalizationDelegate.create(
+    fallbackLocale: 'en_US',
+    supportedLocales: ['en_US', 'tr'],
+  );
+  runApp(LocalizedApp(delegate, const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,24 +17,36 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'The Flutter Way',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFEEF1F8),
-        primarySwatch: Colors.blue,
-        fontFamily: "Intel",
-        inputDecorationTheme: const InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.white,
-          errorStyle: TextStyle(height: 0),
-          border: defaultInputBorder,
-          enabledBorder: defaultInputBorder,
-          focusedBorder: defaultInputBorder,
-          errorBorder: defaultInputBorder,
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+
+    return LocalizationProvider(
+      state: LocalizationProvider.of(context).state,
+      child: MaterialApp(
+        title: 'The Flutter Way',
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          localizationDelegate
+        ],
+        supportedLocales: localizationDelegate.supportedLocales,
+        locale: localizationDelegate.currentLocale,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: const Color(0xFFEEF1F8),
+          primarySwatch: Colors.blue,
+          fontFamily: "Intel",
+          inputDecorationTheme: const InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.white,
+            errorStyle: TextStyle(height: 0),
+            border: defaultInputBorder,
+            enabledBorder: defaultInputBorder,
+            focusedBorder: defaultInputBorder,
+            errorBorder: defaultInputBorder,
+          ),
         ),
+        home: const OnbodingScreen(),
       ),
-      home: const OnbodingScreen(),
     );
   }
 }
