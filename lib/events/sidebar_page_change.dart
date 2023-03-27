@@ -11,6 +11,10 @@ class SideBarChangeEvent {
 
 class IndexEventArg extends EventArgs {
   int index;
+  String status;
   // bool isSideBarOpen;
-  IndexEventArg(this.index,);
+  IndexEventArg(
+    this.index,
+    this.status
+  );
 }

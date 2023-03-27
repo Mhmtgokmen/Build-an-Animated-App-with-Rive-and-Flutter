@@ -1,46 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:rive/src/controllers/state_machine_controller.dart';
 import 'package:rive_animation/events/sidebar_page_change.dart';
 import 'package:rive_animation/model/sub_menu_item_model.dart';
 import 'package:rive_animation/model/user_menu_info_model.dart';
-import 'package:rive_animation/service/login_service.dart';
-import 'package:rive_animation/shared/return_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../model/menu.dart';
-import '../../../utils/rive_utils.dart';
 import 'info_card.dart';
 import 'side_menu.dart';
 
 class SideBar extends StatefulWidget {
-  SideBar({
+  const SideBar({
     super.key,
     required this.menu,
-  }) {
-    // loginService = LoginService();
-    // menu = [];
-  }
-  late int currentIndex;
-  // late List<UserMenuInfoModel> menu = [];
+  });
   final List<UserMenuInfoModel> menu;
-  //  late Menu menu;
-  late ReturnInfo<dynamic> returnInfo;
-  // late LoginService loginService;
   @override
   State<SideBar> createState() => _SideBarState();
 }
 
 class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
   SideBarChangeEvent sideBarChangeEvent = SideBarChangeEvent();
-  UserMenuInfoModel? selectedSideMenu;
+  SubMenuItemModel? selectedSideMenu;
   final ScrollController controller = ScrollController();
-  bool isSideBarOpen = false;
-  late SMIBool isMenuOpenInput;
   late AnimationController _animationController;
   @override
   void initState() {
-    selectedSideMenu = widget.menu.isNotEmpty ? widget.menu.first : null;
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(
@@ -113,21 +98,21 @@ class _SideBarState extends State<SideBar> with SingleTickerProviderStateMixin {
                         itemBuilder: (context, subMenuIndex) => SideMenu(
                           menu: widget.menu[index].subMenuItems[subMenuIndex],
                           press: () {
-                            // RiveUtils.chnageSMIBoolState(
-                            //     widget.menu[subMenuIndex].state as SMIBool);
                             setState(() {
-                              selectedSideMenu = widget.menu[index];
-                              SideBarChangeEvent.getInstance()
-                                  .broadcast(IndexEventArg(subMenuIndex));
+                              selectedSideMenu =
+                                  widget.menu[index].subMenuItems[subMenuIndex];
+                              SideBarChangeEvent.getInstance().broadcast(
+                                IndexEventArg(
+                                  subMenuIndex,
+                                  widget.menu[index].subMenuItems[subMenuIndex]
+                                      .status,
+                                ),
+                              );
                             });
                           },
-                          riveOnInit: (artboard) {
-                            // menu.rive.status = RiveUtils.getRiveInput(
-                            //     artboard,
-                            //     stateMachineName:
-                            //         menu.rive.stateMachineName);
-                          },
-                          selectedMenu: selectedSideMenu as SubMenuItemModel,
+                          riveOnInit: (artboard) {},
+                          selectedMenu: selectedSideMenu,
+                          icon: menuIcons[subMenuIndex],
                         ),
                       ),
                     ],

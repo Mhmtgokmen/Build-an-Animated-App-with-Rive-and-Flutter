@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/model/sub_menu_item_model.dart';
-import 'package:rive_animation/model/user_menu_info_model.dart';
-
-import '../../../model/menu.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -13,12 +10,14 @@ class SideMenu extends StatelessWidget {
     required this.press,
     required this.riveOnInit,
     required this.selectedMenu,
+    required this.icon,
   });
 
   final SubMenuItemModel menu;
   final VoidCallback press;
   final ValueChanged<Artboard> riveOnInit;
-  final SubMenuItemModel selectedMenu;
+  final SubMenuItemModel? selectedMenu;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +47,19 @@ class SideMenu extends StatelessWidget {
               leading: SizedBox(
                 height: 36,
                 width: 36,
-                child: RiveAnimation.asset(
-                  "assets/RiveAssets/icons.riv",
-                  //  menu.rive.src,
-                  artboard: "HOME",
-                  onInit: riveOnInit,
+                child: Icon(
+                  icon,
+                  color: Colors.white,
                 ),
+                // child: RiveAnimation.asset(
+                //   "assets/RiveAssets/icons.riv",
+                //   //  menu.rive.src,
+                //   artboard: "HOME",
+                //   onInit: riveOnInit,
+                // ),
               ),
               title: Text(
-                translate( menu.translateName),
+                translate(menu.translateName),
                 style: const TextStyle(color: Colors.white),
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:rive/rive.dart';
 import 'package:rive_animation/screens/entryPoint/entry_point.dart';
 import 'package:rive_animation/service/login_service.dart';
 import 'package:rive_animation/shared/session_manager.dart';
+import 'package:rive_animation/shared/user_info.dart';
 import 'package:rive_animation/shared/utilities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,11 +70,13 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
               );
             } else if (loginReturnInfo.isSuccess) {
               SessionManager.setCurrentUser(loginReturnInfo.data);
+              prefs.setString(
+                  'session', (loginReturnInfo.data as UserInfo).sessionId);
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  EntryPoint(),
+                  builder: (context) => EntryPoint(),
                 ),
               );
             } else {

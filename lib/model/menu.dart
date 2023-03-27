@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/screens/search/favori_pages.dart';
@@ -105,26 +106,57 @@ List pages = [
   const HelpPage(),
 ];
 
+List<IconData> menuIcons = [
+  CupertinoIcons.cube_box_fill,
+  CupertinoIcons.checkmark_seal_fill,
+  CupertinoIcons.doc_fill,
+  CupertinoIcons.doc_chart_fill,
+  CupertinoIcons.doc_checkmark_fill
+];
+
 class PageManager {
   static Widget getByPageManger(int index) {
     return pages[index];
   }
 
-  static Widget recreatePageByIndex(int index) {
-    if (index == 0) {
-      return const HomePage();
-    }
-    if (index == 1) {
+  static Widget recreatePageByIndex(int index, String status) {
+    if (status == "loading") {
       return LoadingPage();
     }
-    if (index == 2) {
+    if (status == "qualitycontrol") {
+      return const HomePage();
+    }
+    if (status == "stockcount") {
       return FavoriPage();
+    }
+    if (status == "stocktran") {
+      return const HelpPage();
+    }
+    if (status == "transaction") {
+      return const HelpPage();
+    }
+    if (status == "overtime") {
+      return const HelpPage();
+    }
+    if (status == "permission") {
+      return const HelpPage();
     } else {
       return const HelpPage();
     }
+    // if (index == 0) {
+    //   return  LoadingPage();
+    // }
+    // if (index == 1) {
+    //   return const HomePage();
+    // }
+    // if (index == 2) {
+    //   return FavoriPage();
+    // } else {
+    //   return const HelpPage();
+    // }
   }
 
-  static void renewPageByIndex(int index) {
-    pages[index] = recreatePageByIndex(index);
+  static void renewPageByIndex(int index, String status) {
+    pages[index] = recreatePageByIndex(index, status);
   }
 }

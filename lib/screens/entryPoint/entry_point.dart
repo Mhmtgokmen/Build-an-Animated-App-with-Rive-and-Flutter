@@ -6,11 +6,8 @@ import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/events/sidebar_page_change.dart';
 import 'package:rive_animation/model/user_menu_info_model.dart';
 import 'package:rive_animation/service/login_service.dart';
-import 'package:rive_animation/shared/session_manager.dart';
-import 'package:rive_animation/utils/rive_utils.dart';
 
 import '../../model/menu.dart';
-import 'components/btm_nav_item.dart';
 import 'components/menu_btn.dart';
 import 'components/side_bar.dart';
 
@@ -45,6 +42,8 @@ class _EntryPointState extends State<EntryPoint>
   late AnimationController _animationController;
   late Animation<double> scalAnimation;
   late Animation<double> animation;
+  late int currentIndex = 0;
+  late String status = "";
   @override
   void initState() {
     _animationController = AnimationController(
@@ -60,8 +59,11 @@ class _EntryPointState extends State<EntryPoint>
         parent: _animationController, curve: Curves.fastOutSlowIn));
     SideBarChangeEvent.getInstance().subscribe((args) {
       currentIndex = args!.index;
+      status = args.status;
       toggleSideBarMenu();
-      PageManager.renewPageByIndex(currentIndex);
+      PageManager.renewPageByIndex(currentIndex, status);
+      print(currentIndex);
+      print(status);
     });
 
     super.initState();
@@ -69,7 +71,6 @@ class _EntryPointState extends State<EntryPoint>
 
   Future<void> getdata() async {
     widget.menu = (await widget.loginService.getUserMenuInfo()).data;
-    // setState(() {});
   }
 
   @override
@@ -91,8 +92,6 @@ class _EntryPointState extends State<EntryPoint>
       },
     );
   }
-
-  late int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
