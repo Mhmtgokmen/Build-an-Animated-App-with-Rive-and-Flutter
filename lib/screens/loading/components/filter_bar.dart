@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rive_animation/shared/pages/components/edit_text_field.dart';
 
 class FilterBar extends StatefulWidget {
   const FilterBar({super.key});
@@ -20,7 +21,11 @@ class _FilterBarState extends State<FilterBar> {
             Radius.circular(30),
           ),
         ),
-        child: const Center(child: Text("Deneme")),
+        child: Column(
+          children: [
+            // EditTextField(labelText: 'No',value: (){},)
+          ],
+        ),
       ),
     );
   }

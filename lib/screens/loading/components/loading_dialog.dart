@@ -1,8 +1,12 @@
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rive_animation/model/item_for_combo_model.dart';
+import 'package:rive_animation/model/list_for_combo_filter_model.dart';
 import 'package:rive_animation/model/loading_model.dart';
+import 'package:rive_animation/service/employee_service.dart';
 import 'package:rive_animation/service/loading_service.dart';
+import 'package:rive_animation/shared/pages/components/autocomplete_text_field.dart';
 import 'package:rive_animation/shared/pages/components/button_field.dart';
 import 'package:rive_animation/shared/pages/components/date_time_field.dart';
 import 'package:rive_animation/shared/pages/components/drop_down_field.dart';
@@ -11,8 +15,15 @@ import 'package:rive_animation/shared/pages/components/edit_text_field.dart';
 import 'package:rive_animation/shared/utilities.dart';
 
 class LoadingDialog extends StatefulWidget {
-  const LoadingDialog({super.key, required this.item});
+  LoadingDialog({super.key, required this.item}) {
+    employeeService = EmployeeService();
+    listComboFilter = ListForComboFilterModel(search: "", id: 0);
+    itemForComboModel = [];
+  }
   final LoadingModel item;
+  late ListForComboFilterModel listComboFilter;
+  late List<ItemForComboModel> itemForComboModel;
+  late EmployeeService employeeService;
   @override
   State<LoadingDialog> createState() => _LoadingDialogState();
 }
@@ -68,8 +79,16 @@ class _LoadingDialogState extends State<LoadingDialog> {
     selectedStatusValue = statusDropDownItems
         .where((element) => element.value == widget.item.status)
         .first;
-
+    // responsibleNameTextController.text = widget.listComboFilter.search!;
     super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    widget.itemForComboModel =
+        (await widget.employeeService.getListForCombo(widget.listComboFilter))
+            .data;
+    setState(() {});
   }
 
   @override
@@ -165,13 +184,17 @@ class _LoadingDialogState extends State<LoadingDialog> {
                           });
                         },
                       ),
-                      EditTextField(
+                      AutocompleteTextField(
                         labelText: "Sorumlu",
-                        value: widget.item.responsibleName,
-                        onChange: (event) {
-                          widget.item.responsibleName = event;
-                        },
+                        dataList: widget.itemForComboModel,
                       ),
+                      // EditTextField(
+                      //   labelText: "Sorumlu",
+                      //   value: widget.item.responsibleName,
+                      //   onChange: (event) {
+                      //     widget.item.responsibleName = event;
+                      //   },
+                      // ),
                       EditTextField(
                         labelText: "CBM Limit",
                         value: widget.item.cbmLimit.round().toString(),
@@ -259,7 +282,8 @@ class _LoadingDialogState extends State<LoadingDialog> {
                 var result = await loadingService.deleteLoading(widget.item);
                 result.isSuccess
                     // ignore: use_build_context_synchronously
-                    ? Utilities.showMessage(context: context, message: "Deleted")
+                    ? Utilities.showMessage(
+                        context: context, message: "Deleted")
                     // ignore: use_build_context_synchronously
                     : Utilities.showMessage(
                         context: context,

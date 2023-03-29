@@ -7,10 +7,7 @@ import 'package:rive_animation/shared/return_info.dart';
 class FavoriPage extends StatefulWidget {
   FavoriPage({super.key}) {
     loginService = LoginService();
-    // menu = [];
   }
-  // final String session;
-  // final LoginService loginService = LoginService();
   late List<UserMenuInfoModel> menu = [];
   late ReturnInfo<dynamic> returnInfo;
   late LoginService loginService;
@@ -26,9 +23,6 @@ class _FavoriPageState extends State<FavoriPage> {
   final int pageSize = 0;
   @override
   void initState() {
-    // pagingController.addPageRequestListener((pageKey) {
-    //   fetchPage(pageKey);
-    // });
     super.initState();
     getdata();
   }

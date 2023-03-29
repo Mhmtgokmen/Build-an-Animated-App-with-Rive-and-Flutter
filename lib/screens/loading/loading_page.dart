@@ -37,7 +37,6 @@ class LoadingPage extends StatefulWidget {
   }
 
   late FilterModel<LoadingFilterModel> filter;
-  late ReturnInfo<dynamic> returnInfo;
   late LoadingService loadingService;
   final int pageSize = 20;
   final int currentPage = 0;
