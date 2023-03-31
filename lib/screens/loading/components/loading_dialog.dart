@@ -79,7 +79,6 @@ class _LoadingDialogState extends State<LoadingDialog> {
     selectedStatusValue = statusDropDownItems
         .where((element) => element.value == widget.item.status)
         .first;
-    // responsibleNameTextController.text = widget.listComboFilter.search!;
     super.initState();
     getData();
   }
@@ -187,6 +186,10 @@ class _LoadingDialogState extends State<LoadingDialog> {
                       AutocompleteTextField(
                         labelText: "Sorumlu",
                         dataList: widget.itemForComboModel,
+                        value: widget.item.responsibleName,
+                        onSelected: (option) {
+                          widget.item.responsible = option.value;
+                        },
                       ),
                       // EditTextField(
                       //   labelText: "Sorumlu",

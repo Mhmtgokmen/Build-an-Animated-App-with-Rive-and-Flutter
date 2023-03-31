@@ -15,7 +15,6 @@ import 'package:rive_animation/screens/entryPoint/components/menu_btn.dart';
 import 'package:rive_animation/screens/loading/components/filter_bar.dart';
 import 'package:rive_animation/screens/loading/components/loading_dialog.dart';
 import 'package:rive_animation/service/loading_service.dart';
-import 'package:rive_animation/shared/return_info.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -66,7 +65,6 @@ class _LoadingPageState extends State<LoadingPage>
   late AnimationController _animationController;
   late Animation<double> scalAnimation;
   late Animation<double> animation;
-
   @override
   void initState() {
     pagingController.addPageRequestListener((pageKey) {
@@ -79,7 +77,7 @@ class _LoadingPageState extends State<LoadingPage>
           setState(() {});
         },
       );
-    scalAnimation = Tween<double>(begin: 1, end: 1).animate(CurvedAnimation(
+    scalAnimation = Tween<double>(begin: 1, end: 0.9).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
     animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
@@ -137,10 +135,17 @@ class _LoadingPageState extends State<LoadingPage>
             curve: Curves.fastOutSlowIn,
             right: isFilterBarOpen ? 0 : -288,
             top: 0,
-            child: const FilterBar(),
+            child: FilterBar(
+              dataItem: widget.filter,
+              callback: (value) {
+                setState(() {
+                widget.filter = value;
+                });
+              },
+            ),
           ),
           AbsorbPointer(
-            absorbing: isAbsorbing,
+            absorbing: false,
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.identity()
@@ -279,9 +284,8 @@ class _LoadingPageState extends State<LoadingPage>
           AnimatedPositioned(
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
-            // left: isFilterBarOpen ? 220 : 0,
             top: 16,
-            right: isFilterBarOpen ? 0 : 12,
+            right: isFilterBarOpen ? 12 : 12,
             child: MenuBtn(
               press: () {
                 toggleFilterBarMenu();

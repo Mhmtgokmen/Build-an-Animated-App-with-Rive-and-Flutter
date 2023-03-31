@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'The Flutter Way',
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           localizationDelegate
         ],

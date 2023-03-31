@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:rive_animation/model/item_for_combo_model.dart';
 
 class AutocompleteTextField extends StatefulWidget {
-  const AutocompleteTextField({
+  AutocompleteTextField({
     super.key,
     required this.dataList,
     required this.labelText,
     this.top = 16,
     this.left = 16,
     this.right = 16,
+    this.onSelected,
+    required this.value,
   });
 
   final List<ItemForComboModel> dataList;
@@ -16,6 +18,8 @@ class AutocompleteTextField extends StatefulWidget {
   final double top;
   final double left;
   final double right;
+  final Function(ItemForComboModel)? onSelected;
+  final String value;
   @override
   State<AutocompleteTextField> createState() => _AutocompleteTextFieldState();
 }
@@ -31,12 +35,12 @@ class _AutocompleteTextFieldState extends State<AutocompleteTextField> {
           return const Iterable<ItemForComboModel>.empty();
         }
         return widget.dataList.where((ItemForComboModel option) {
-          return option.displayText
-              .contains(textEditingValue.text);
+          return option.displayText.contains(textEditingValue.text);
         });
       },
       fieldViewBuilder:
           (context, textEditingController, focusNode, onFieldSubmitted) {
+        textEditingController.text = widget.value;
         return Container(
           margin: EdgeInsets.only(
               left: widget.left, right: widget.right, top: widget.top),
@@ -61,6 +65,7 @@ class _AutocompleteTextFieldState extends State<AutocompleteTextField> {
           ),
         );
       },
+      onSelected: widget.onSelected,
     );
   }
 }
