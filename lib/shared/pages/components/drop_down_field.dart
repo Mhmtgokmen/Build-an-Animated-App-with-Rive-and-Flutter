@@ -33,7 +33,7 @@ class _DropDownFieldState extends State<DropDownField> {
           border: InputBorder.none,
           fillColor: Colors.white,
         ),
-        hint: Text(
+        disabledHint: Text(
           widget.hintText,
           style: const TextStyle(
             fontSize: 17,

@@ -96,7 +96,7 @@ class _FilterBarState extends State<FilterBar> {
                 ),
               ),
               EditTextField(
-                labelText: 'Müşteri No',
+                labelText: 'Yükleme No',
                 value: (widget.dataItem.filter!.loadingId ?? "").toString(),
                 onChange: (event) {
                   widget.dataItem.filter!.loadingId = int.parse(event);
@@ -114,8 +114,7 @@ class _FilterBarState extends State<FilterBar> {
                 callback: (value) {
                   setState(() {
                     selectedStatusValue = value;
-                    widget.dataItem.filter!.containerType =
-                        selectedStatusValue!.value;
+                    widget.dataItem.filter!.status = selectedStatusValue!.value;
                   });
                 },
                 dropdownItems: statusDropDownItems,
@@ -127,6 +126,7 @@ class _FilterBarState extends State<FilterBar> {
                 callback: (value) {
                   selectedDate = value;
                   widget.dataItem.filter!.loadingDate = value;
+                  print(value.toString());
                 },
               ),
             ],
@@ -140,7 +140,26 @@ class _FilterBarState extends State<FilterBar> {
             ButtonField(
               text: "Temizle",
               color: const Color(0xFFff3d57),
-              onPressed: () async {},
+              onPressed: () async {
+                widget.dataItem.filter!.loadingId.toString() == "";
+                widget.dataItem.filter!.description == "";
+                selectedStatusValue!.value.toString() == "";
+                selectedDate.toString() == "";
+                var result = FilterModel(
+                  filter: LoadingFilterModel(),
+                  queryInfo: QueryInfoModel(
+                    orderby: "-LoadingId",
+                    pager: PagerModel(
+                      currentPage: widget.currentPage,
+                      pageSize: widget.pageSize,
+                      totalCount: 0,
+                    ),
+                  ),
+                  isExport: false,
+                  columnInfos: [],
+                );
+                widget.callback(result);
+              },
             ),
             const Spacer(),
             ButtonField(
@@ -155,7 +174,7 @@ class _FilterBarState extends State<FilterBar> {
                     loadingDate: widget.dataItem.filter!.loadingDate,
                   ),
                   queryInfo: QueryInfoModel(
-                    orderby: "",
+                    orderby: "-LoadingId",
                     pager: PagerModel(
                       currentPage: widget.currentPage,
                       pageSize: widget.pageSize,

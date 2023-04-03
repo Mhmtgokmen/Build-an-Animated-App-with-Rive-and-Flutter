@@ -34,7 +34,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
             child: Icon(Iconsax.note_favorite),
           ),
         ),
-        use24hFormat: true,
+        // use24hFormat: true,
         initialValue: widget.selectedDate,
         onDateSelected: (DateTime? value) {
           widget.selectedDate = value;

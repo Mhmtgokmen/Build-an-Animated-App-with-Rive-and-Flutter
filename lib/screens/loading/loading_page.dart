@@ -51,7 +51,7 @@ class _LoadingPageState extends State<LoadingPage>
       PagingController(firstPageKey: 0);
 
   bool isFilterBarOpen = false;
-  bool isAbsorbing = false;
+  bool isIgnoring = false;
   late SMIBool isFilterBarOpenInput;
 
   void updateSelectedBtmNav(Menu menu) {
@@ -139,13 +139,14 @@ class _LoadingPageState extends State<LoadingPage>
               dataItem: widget.filter,
               callback: (value) {
                 setState(() {
-                widget.filter = value;
+                  widget.filter = value;
+                  pagingController.refresh();
                 });
               },
             ),
           ),
-          AbsorbPointer(
-            absorbing: false,
+          IgnorePointer(
+            ignoring: isIgnoring,
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.identity()
@@ -289,7 +290,7 @@ class _LoadingPageState extends State<LoadingPage>
             child: MenuBtn(
               press: () {
                 toggleFilterBarMenu();
-                isAbsorbing = !isAbsorbing;
+                isIgnoring = !isIgnoring;
               },
               riveOnInit: (artboard) {
                 final controller = StateMachineController.fromArtboard(
