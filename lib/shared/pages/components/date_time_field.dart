@@ -43,8 +43,8 @@ class _DateTimeFieldState extends State<DateTimeField> {
         dateFormat: DateFormat('y/M/d'),
         mode: DateTimeFieldPickerMode.date,
         autovalidateMode: AutovalidateMode.always,
-        // validator: (DateTime? e) =>
-        //               (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
+        validator: (DateTime? e) =>
+                      (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
       ),
     );
   }

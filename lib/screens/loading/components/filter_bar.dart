@@ -125,7 +125,7 @@ class _FilterBarState extends State<FilterBar> {
                 selectedDate: selectedDate,
                 callback: (value) {
                   selectedDate = value;
-                  widget.dataItem.filter!.loadingDate = value;
+                  widget.dataItem.filter!.loadingDate1 = value;
                   print(value.toString());
                 },
               ),
@@ -143,8 +143,10 @@ class _FilterBarState extends State<FilterBar> {
               onPressed: () async {
                 widget.dataItem.filter!.loadingId.toString() == "";
                 widget.dataItem.filter!.description == "";
-                selectedStatusValue!.value.toString() == "";
-                selectedDate.toString() == "";
+                selectedStatusValue ?? selectedStatusValue!.text == "";
+                // widget.dataItem.filter!.loadingDate1 ??
+                //     "${selectedDate.toLocal()}".split('')[0].toString();
+                setState(() {});
                 var result = FilterModel(
                   filter: LoadingFilterModel(),
                   queryInfo: QueryInfoModel(
@@ -171,7 +173,7 @@ class _FilterBarState extends State<FilterBar> {
                     loadingId: widget.dataItem.filter!.loadingId,
                     description: widget.dataItem.filter!.description,
                     status: widget.dataItem.filter!.status,
-                    loadingDate: widget.dataItem.filter!.loadingDate,
+                    loadingDate1: widget.dataItem.filter!.loadingDate1,
                   ),
                   queryInfo: QueryInfoModel(
                     orderby: "-LoadingId",

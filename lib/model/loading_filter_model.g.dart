@@ -37,7 +37,10 @@ LoadingFilterModel _$LoadingFilterModelFromJson(Map<String, dynamic> json) =>
       customerName: json['customerName'] as String?,
       loadingItemCount: json['loadingItemCount'] as int?,
       loadingImageCount: json['loadingImageCount'] as int?,
-      loadingDate: json['loadingDate'] == null
+      loadingDate1: json['loadingDate'] == null
+          ? null
+          : DateTime.parse(json['loadingDate'] as String),
+      loadingDate2: json['loadingDate'] == null
           ? null
           : DateTime.parse(json['loadingDate'] as String),
       representativeName: json['representativeName'] as String?,
@@ -73,7 +76,8 @@ Map<String, dynamic> _$LoadingFilterModelToJson(LoadingFilterModel instance) =>
       'customerName': instance.customerName,
       'loadingItemCount': instance.loadingItemCount,
       'loadingImageCount': instance.loadingImageCount,
-      'loadingDate': instance.loadingDate?.toIso8601String(),
+      'loadingDate1': instance.loadingDate1?.toIso8601String(),
+      'loadingDate2': instance.loadingDate2?.toIso8601String(),
       'representativeName': instance.representativeName,
       'representative': instance.representative,
       'responsible': instance.responsible,

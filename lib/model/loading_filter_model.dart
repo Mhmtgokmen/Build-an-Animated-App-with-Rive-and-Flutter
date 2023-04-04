@@ -29,7 +29,8 @@ class LoadingFilterModel {
   String? customerName;
   int? loadingItemCount;
   int? loadingImageCount;
-  DateTime? loadingDate;
+  DateTime? loadingDate1;
+  DateTime? loadingDate2;
   String? representativeName;
   int? representative;
   int? responsible;
@@ -61,7 +62,8 @@ class LoadingFilterModel {
    this.customerName,
    this.loadingItemCount,
    this.loadingImageCount,
-   this.loadingDate,
+   this.loadingDate1,
+   this.loadingDate2,
    this.representativeName,
    this.representative,
    this.responsible,
