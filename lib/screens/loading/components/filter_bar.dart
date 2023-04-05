@@ -18,25 +18,7 @@ class FilterBar extends StatefulWidget {
     super.key,
     required this.dataItem,
     required this.callback,
-  }) {
-    // dataItem = FilterModel(
-    //   filter: LoadingFilterModel(
-    //     // customerId: dataItem.filter!.customerId ?? 0,
-    //     // description: dataItem.filter!.description ?? "",
-    //     // status: dataItem.filter!.status ?? 0,
-    //   ),
-    //   queryInfo: QueryInfoModel(
-    //     orderby: "-LoadingId",
-    //     pager: PagerModel(
-    //       currentPage: currentPage,
-    //       pageSize: pageSize,
-    //       totalCount: 0,
-    //     ),
-    //   ),
-    //   isExport: false,
-    //   columnInfos: [],
-    // );
-  }
+  });
 
   final FilterModel<LoadingFilterModel> dataItem;
   final int pageSize = 20;
@@ -97,21 +79,21 @@ class _FilterBarState extends State<FilterBar> {
                 ),
               ),
               EditTextField(
-                labelText: 'Yükleme No',
+                labelText: translate('LOADING.LOADINGNO'),
                 value: (widget.dataItem.filter!.loadingId ?? "").toString(),
                 onChange: (event) {
                   widget.dataItem.filter!.loadingId = int.parse(event);
                 },
               ),
               EditTextField(
-                labelText: 'Açıklama',
+                labelText: translate('LOADING.DESCRIPTION'),
                 value: widget.dataItem.filter!.description ?? "",
                 onChange: (event) {
                   widget.dataItem.filter!.description = event;
                 },
               ),
               DropDownField(
-                hintText: 'Durum',
+                hintText: translate('LOADING.STATUS'),
                 callback: (value) {
                   setState(() {
                     selectedStatusValue = value;
@@ -122,7 +104,7 @@ class _FilterBarState extends State<FilterBar> {
                 value: selectedStatusValue,
               ),
               DateTimeField(
-                labelText: "Yükleme Tarihi",
+                labelText: translate('LOADING.LOADINGDATE'),
                 selectedDate: selectedDate,
                 callback: (value) {
                   selectedDate = value;

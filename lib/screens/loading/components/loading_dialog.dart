@@ -62,20 +62,21 @@ class _LoadingDialogState extends State<LoadingDialog> {
     updatedUserTextController.text = widget.item.updatedUserText;
     selectedDate = widget.item.loadingDate;
     containerTypeDropDownItems = [
-      DropDownListItem(text: '40 HC', value: 124),
-      DropDownListItem(text: '20 DC', value: 125),
-      DropDownListItem(text: 'Parsiyel - Deniz', value: 129),
-      DropDownListItem(text: 'Açık Gemi Yükü', value: 1155),
-      DropDownListItem(text: 'Parsiyel - Hava', value: 2200),
-      DropDownListItem(text: 'Parsiyel - Kara', value: 2201),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM1'), value: 124),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM2'), value: 125),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM3'), value: 129),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM4'), value: 1155),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM5'), value: 2200),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM6'), value: 2201),
+      DropDownListItem(text: translate('PARAMETER.LOADINGPARAM7'), value: 2227),
     ];
     selectedConTypeValue = containerTypeDropDownItems
         .where((element) => element.value == widget.item.containerType)
         .first;
     statusDropDownItems = [
-      DropDownListItem(text: 'Planlandı', value: 1),
-      DropDownListItem(text: 'Yüklendi', value: 2),
-      DropDownListItem(text: 'Sevk edildi', value: 3),
+      DropDownListItem(text: translate('PARAMETER.STATUSPARAM1'), value: 1),
+      DropDownListItem(text: translate('PARAMETER.STATUSPARAM2'), value: 2),
+      DropDownListItem(text: translate('PARAMETER.STATUSPARAM3'), value: 3),
     ];
     selectedStatusValue = statusDropDownItems
         .where((element) => element.value == widget.item.status)

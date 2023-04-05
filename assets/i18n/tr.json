@@ -6,6 +6,18 @@
         "UPDATE": "Güncelle",
         "SAVED":"Kaydedildi"
     },
+    "PARAMETER":{
+        "LOADINGPARAM1":"40 HC",
+        "LOADINGPARAM2":"20 DC",
+        "LOADINGPARAM3":"PARSİYEL-DENİZ",
+        "LOADINGPARAM4":"AÇIK GEMİ YÜKÜ",
+        "LOADINGPARAM5":"PARSİYEL-HAVA",
+        "LOADINGPARAM6":"PARSİYEL-KARA",
+        "LOADINGPARAM7":"40 OT",
+        "STATUSPARAM1":"Planlandı",
+        "STATUSPARAM2":"Yüklendi",
+        "STATUSPARAM3":"Sevkedildi"
+    },
      "MAINMENU": {
         "SHIPMENT": "Sevkiyat",
         "QUALITY": "Kalite",

@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
+import 'package:rive_animation/model/column_info_model.dart';
 import 'package:rive_animation/model/filter_model.dart';
 import 'package:rive_animation/model/loading_filter_model.dart';
 import 'package:rive_animation/model/menu.dart';
@@ -169,9 +170,9 @@ class _LoadingPageState extends State<LoadingPage>
                           Container(
                             alignment: Alignment.center,
                             margin: const EdgeInsets.symmetric(vertical: 16),
-                            child:  Text(
+                            child: Text(
                               translate('LOADING.LOADINGS'),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                               ),
@@ -201,7 +202,8 @@ class _LoadingPageState extends State<LoadingPage>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text( "${translate('LOADING.LOADINGNO')}:${item.loadingId.toString()}"),
+                                            Text(
+                                                "${translate('LOADING.LOADINGNO')}:${item.loadingId.toString()}"),
                                             IconButton(
                                               onPressed: () {
                                                 Navigator.push(
@@ -333,6 +335,19 @@ class _LoadingPageState extends State<LoadingPage>
                       press: () {
                         RiveUtils.chnageSMIBoolState(navBar.rive.status!);
                         updateSelectedBtmNav(navBar);
+                       widget.filter = FilterModel(
+                          filter: LoadingFilterModel(),
+                          queryInfo: QueryInfoModel(
+                            orderby: "-LoadingId",
+                            pager: PagerModel(
+                              currentPage: widget.currentPage,
+                              pageSize: widget.pageSize,
+                              totalCount: 0,
+                            ),
+                          ),
+                          isExport: true,
+                          columnInfos: [ColumnInfoModel(localText: 'No',prop: '')],
+                        );
                       },
                       riveOnInit: (artboard) {
                         navBar.rive.status = RiveUtils.getRiveInput(artboard,

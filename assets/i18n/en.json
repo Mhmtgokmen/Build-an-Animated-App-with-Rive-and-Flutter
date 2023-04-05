@@ -6,6 +6,18 @@
         "UPDATE": "Update",
         "SAVED":"Saved"
     },
+    "PARAMETER":{
+        "LOADINGPARAM1":"40 HC",
+        "LOADINGPARAM2":"20 DC",
+        "LOADINGPARAM3":"PARSİYEL-DENİZ",
+        "LOADINGPARAM4":"AÇIK GEMİ YÜKÜ",
+        "LOADINGPARAM5":"PARSİYEL-HAVA",
+        "LOADINGPARAM6":"PARSİYEL-KARA",
+        "LOADINGPARAM7":"40 OT",
+        "STATUSPARAM1":"Planned",
+        "STATUSPARAM2":"Loaded",
+        "STATUSPARAM3":"Shipped"
+    },
      "MAINMENU": {
         "SHIPMENT": "Shipment",
         "QUALITY": "Quality",
