@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/model/filter_model.dart';
 import 'package:rive_animation/model/loading_filter_model.dart';
@@ -138,7 +139,7 @@ class _FilterBarState extends State<FilterBar> {
         child: Row(
           children: [
             ButtonField(
-              text: "Temizle",
+              text: translate('GENERAL.CLEAR'),
               color: const Color(0xFFff3d57),
               onPressed: () async {
                 widget.dataItem.filter!.loadingId.toString() == "";
@@ -165,7 +166,7 @@ class _FilterBarState extends State<FilterBar> {
             ),
             const Spacer(),
             ButtonField(
-              text: "Filtrele",
+              text: translate('GENERAL.FILTER'),
               color: const Color(0xFF5052A2),
               onPressed: () async {
                 var result = FilterModel(

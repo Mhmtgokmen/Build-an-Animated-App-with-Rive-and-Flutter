@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rive/rive.dart';
@@ -168,8 +169,8 @@ class _LoadingPageState extends State<LoadingPage>
                           Container(
                             alignment: Alignment.center,
                             margin: const EdgeInsets.symmetric(vertical: 16),
-                            child: const Text(
-                              'Yüklemeler',
+                            child:  Text(
+                              translate('LOADING.LOADINGS'),
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
@@ -181,97 +182,93 @@ class _LoadingPageState extends State<LoadingPage>
                               pagingController: pagingController,
                               builderDelegate:
                                   PagedChildBuilderDelegate<dynamic>(
-                                      itemBuilder: (context, item, index) =>
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(),
+                                itemBuilder: (context, item, index) =>
+                                    Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text( "${translate('LOADING.LOADINGNO')}:${item.loadingId.toString()}"),
+                                            IconButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LoadingDialog(
+                                                      item: item,
+                                                    ),
+                                                    fullscreenDialog: true,
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(Iconsax.edit),
                                             ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          "No: ${item.loadingId.toString()}"),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  LoadingDialog(
-                                                                item: item,
-                                                              ),
-                                                              fullscreenDialog:
-                                                                  true,
-                                                            ),
-                                                          );
-                                                        },
-                                                        icon: const Icon(
-                                                            Iconsax.edit),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const Divider(
-                                                    color: Colors.black,
-                                                  ),
-                                                  Text(
-                                                    "Açıklama: ${item.description}",
-                                                  ),
-                                                  Text(
-                                                    "Müşteri Tem.: ${item.representativeName}",
-                                                  ),
-                                                  Text(
-                                                    "Yük. Ön. Proforma: ${item.beforeLoadingDocumentNo} ${item.beforeLoadingDescription}",
-                                                  ),
-                                                  Text(
-                                                    "Müşteri No: ${item.customerCode} ${item.customerName}",
-                                                  ),
-                                                  Text(
-                                                    "Konteyner T.: ${item.containerTypeText}",
-                                                  ),
-                                                  Text(
-                                                    "Konteyner Adet: ${item.quantity}",
-                                                  ),
-                                                  Text(
-                                                    "Cbm Limit: ${item.cbmLimit}",
-                                                  ),
-                                                  Text(
-                                                    "Kg Limit: ${item.kgLimit}",
-                                                  ),
-                                                  Text(
-                                                    "Resim Adet: ${item.loadingImageCount}",
-                                                  ),
-                                                  Text(
-                                                    "Durum: ${item.status}",
-                                                  ),
-                                                  Text(
-                                                    "Sorumlu: ${item.responsibleName ?? ""}",
-                                                  ),
-                                                  Text(
-                                                    "Yükleme Tarihi: ${item.loadingDate}",
-                                                  ),
-                                                  Text(
-                                                    "Güncelleme: ${item.updatedDate}",
-                                                  ),
-                                                  Text(
-                                                    "Güncelleyen: ${item.createdUserText}",
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )),
+                                          ],
+                                        ),
+                                        const Divider(
+                                          color: Colors.black,
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.DESCRIPTION')}: ${item.description}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.REPRESENTATIVENAME')}: ${item.representativeName}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.BEFORELOADING')}: ${item.beforeLoadingDocumentNo} ${item.beforeLoadingDescription}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.CUSTOMERNO')}: ${item.customerCode} ${item.customerName}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.CONTAINERTYPE')}: ${item.containerTypeText}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.CONTAINERQUANTITY')}: ${item.quantity}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.CBMLIMIT')}: ${item.cbmLimit}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.KGLIMIT')}: ${item.kgLimit}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.IMAGECOUNT')}: ${item.loadingImageCount}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.STATUS')}: ${item.status}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.RESPONSIBLENAME')}: ${item.responsibleName ?? ""}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.LOADINGDATE')}: ${item.loadingDate}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.UPDATEDDATE')}: ${item.updatedDate}",
+                                        ),
+                                        Text(
+                                          "${translate('LOADING.UPDATEDUSERTEXT')}: ${item.updatedUserText}",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],

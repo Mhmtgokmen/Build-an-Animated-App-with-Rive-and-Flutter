@@ -1,0 +1,59 @@
+{
+    "GENERAL": {
+        "FILTER": "Filter",
+        "CLEAR": "Clear",
+        "DELETED": "Delete",
+        "UPDATE": "Update",
+        "SAVED":"Saved"
+    },
+     "MAINMENU": {
+        "SHIPMENT": "Shipment",
+        "QUALITY": "Quality",
+        "WAREHOUSE": "Warehouse",
+        "EMPLOYEE": "Employee"
+    },
+    "LOADING": {
+        "LOADINGMENU": "Loadings",
+        "LOADINGS":"Loadings",
+        "LOADINGNO": "No",
+        "DESCRIPTION":"Description",
+        "REPRESENTATIVENAME":"Representative Name",
+        "BEFORELOADING":"Before Loading",
+        "CUSTOMERNO":"Customer No",
+        "CONTAINERTYPE":"Container Type",
+        "CONTAINERQUANTITY":"Quantity",
+        "CBMLIMIT":"Cbm Limit",
+        "KGLIMIT":"Kg Limit",
+        "IMAGECOUNT":"Image Count",
+        "STATUS":"Status",
+        "RESPONSIBLENAME":"Responsible Name",
+        "LOADINGDATE":"Loading Date",
+        "UPDATEDDATE":"Updated Date",
+        "UPDATEDUSERTEXT":"Updated User",
+        "CREATEDDATE":"Created Date",
+        "CREATEDUSERTEXT":"Created User",
+        "UPDATELOADING":"Loading Update",
+        "NOTE":"Note"
+    },
+    "QUALITYCONTROL": {
+        "QUALITYCONTROLMENU":"Quality Controls"
+    },
+    "STOCKCOUNT":{
+        "STOCKCOUNTMENU":"Stock Count"
+
+    },
+    "STOCKTRAN":{
+        "STOCKTRANMENU":"Stock Transaction"
+    },
+    "TRANSACTION":{
+        "TRANSACTIONMENU":"Transactions"
+        
+    },
+    "OVERTIME":{
+        "OVERTIMEMENU":"Overtimes"
+    },
+    "PERMISSION":{
+        "PERMISSIONMENU":"Permission"
+    }
+
+}

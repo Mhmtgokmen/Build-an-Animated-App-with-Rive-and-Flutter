@@ -1,12 +1,39 @@
 {
-    "MAINMENU": {
+    "GENERAL": {
+        "FILTER": "Filtrele",
+        "CLEAR": "Temizle",
+        "DELETED": "Sil",
+        "UPDATE": "Güncelle",
+        "SAVED":"Kaydedildi"
+    },
+     "MAINMENU": {
         "SHIPMENT": "Sevkiyat",
         "QUALITY": "Kalite",
         "WAREHOUSE": "Depo",
         "EMPLOYEE": "İnsan Kaynakları"
     },
     "LOADING": {
-        "LOADINGMENU": "Yüklemeler"
+        "LOADINGMENU": "Yüklemeler",
+        "LOADINGS":"Yüklemeler",
+        "LOADINGNO": "No",
+        "DESCRIPTION":"Açıklama",
+        "REPRESENTATIVENAME":"Müşteri Temsilcisi",
+        "BEFORELOADING":"Yük. Öncesi Proforma",
+        "CUSTOMERNO":"Müşteri No",
+        "CONTAINERTYPE":"Konteyner Tipi",
+        "CONTAINERQUANTITY":"Konteyner Adedi",
+        "CBMLIMIT":"Cbm Limit",
+        "KGLIMIT":"Kg Limit",
+        "IMAGECOUNT":"Resim Sayısı",
+        "STATUS":"Durum",
+        "RESPONSIBLENAME":"Sorumlu",
+        "LOADINGDATE":"Yükleme Tarihi",
+        "UPDATEDDATE":"Güncelleme",
+        "UPDATEDUSERTEXT":"Güncelleyen",
+        "CREATEDDATE":"Oluşturulma",
+        "CREATEDUSERTEXT":"Oluşturan",
+        "UPDATELOADING":"Yükleme Güncelleme",
+        "NOTE":"Not"
     },
     "QUALITYCONTROL": {
         "QUALITYCONTROLMENU":"Kalite Kontrolleri"

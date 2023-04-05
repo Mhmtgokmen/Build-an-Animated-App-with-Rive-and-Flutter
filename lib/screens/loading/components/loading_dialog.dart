@@ -1,5 +1,6 @@
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:rive_animation/model/item_for_combo_model.dart';
 import 'package:rive_animation/model/list_for_combo_filter_model.dart';
@@ -103,6 +104,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                 vertical: 10,
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
                     icon: const Icon(
@@ -111,12 +113,14 @@ class _LoadingDialogState extends State<LoadingDialog> {
                     ),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  const SizedBox(width: 90),
-                  Text(
-                    "Güncelleme - ${widget.item.loadingId}",
-                    style: const TextStyle(
-                      fontSize: 17,
-                      color: Color(0xFF000000),
+                  // const SizedBox(width: 15),
+                  Expanded(
+                    child: Text(
+                      "${translate('LOADING.UPDATELOADING')} - ${widget.item.loadingId}",
+                      style: const TextStyle(
+                        fontSize: 17,
+                        color: Color(0xFF000000),
+                      ),
                     ),
                   ),
                 ],
@@ -131,7 +135,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                   child: Column(
                     children: [
                       EditTextField(
-                        labelText: "Acıklama",
+                        labelText: translate('LOADING.DESCRIPTION'),
                         top: 5,
                         value: widget.item.description,
                         onChange: (event) {
@@ -139,14 +143,14 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         },
                       ),
                       EditTextField(
-                        labelText: "Not",
+                        labelText: translate('LOADING.NOTE'),
                         value: widget.item.note,
                         onChange: (event) {
                           widget.item.note = event;
                         },
                       ),
                       DropDownField(
-                        hintText: "Konteyner Tipi",
+                        hintText: translate('LOADING.CONTAINERTYPE'),
                         value: selectedConTypeValue,
                         dropdownItems: containerTypeDropDownItems,
                         callback: (value) {
@@ -158,7 +162,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         },
                       ),
                       DateTimeField(
-                        labelText: "Yükleme Tarihi",
+                        labelText: translate('LOADING.LOADINGDATE'),
                         selectedDate: selectedDate,
                         callback: (value) {
                           selectedDate = value;
@@ -166,14 +170,14 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         },
                       ),
                       EditTextField(
-                        labelText: "Konteyner Adedi",
+                        labelText: translate('LOADING.CONTAINERQUANTITY'),
                         value: widget.item.quantity.toString(),
                         onChange: (event) {
                           widget.item.quantity = event as int;
                         },
                       ),
                       DropDownField(
-                        hintText: "Durum",
+                        hintText: translate('LOADING.STATUS'),
                         value: selectedStatusValue,
                         dropdownItems: statusDropDownItems,
                         callback: (value) {
@@ -184,7 +188,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         },
                       ),
                       AutocompleteTextField(
-                        labelText: "Sorumlu",
+                        labelText: translate('LOADING.RESPONSIBLENAME'),
                         dataList: widget.itemForComboModel,
                         value: widget.item.responsibleName,
                         onSelected: (option) {
@@ -199,14 +203,14 @@ class _LoadingDialogState extends State<LoadingDialog> {
                       //   },
                       // ),
                       EditTextField(
-                        labelText: "CBM Limit",
+                        labelText: translate('LOADING.CBMLIMIT'),
                         value: widget.item.cbmLimit.round().toString(),
                         onChange: (event) {
                           widget.item.cbmLimit = double.parse(event);
                         },
                       ),
                       EditTextField(
-                        labelText: "KG Limit",
+                        labelText: translate('LOADING.KGLIMIT'),
                         value: widget.item.kgLimit.round().toString(),
                         onChange: (event) {
                           widget.item.kgLimit = double.parse(event);
@@ -216,7 +220,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         children: [
                           Expanded(
                             child: EditTextField(
-                              labelText: "Oluşturulma",
+                              labelText: translate('LOADING.CREATEDDATE'),
                               right: 5,
                               isReadOnly: true,
                               value: DateFormat('y/M/d - kk:mm')
@@ -228,7 +232,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                           ),
                           Expanded(
                             child: EditTextField(
-                              labelText: "Oluşturan",
+                              labelText: translate('LOADING.CREATEDUSERTEXT'),
                               left: 5,
                               isReadOnly: true,
                               value: widget.item.createdUserText,
@@ -243,7 +247,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                         children: [
                           Expanded(
                             child: EditTextField(
-                              labelText: "Güncelleme",
+                              labelText: translate('LOADING.UPDATEDDATE'),
                               right: 5,
                               isReadOnly: true,
                               value: DateFormat('y/M/d - kk:mm')
@@ -255,7 +259,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
                           ),
                           Expanded(
                             child: EditTextField(
-                              labelText: "Güncelleyen",
+                              labelText: translate('LOADING.UPDATEDUSERTEXT'),
                               left: 5,
                               isReadOnly: true,
                               value: widget.item.updatedUserText,
@@ -279,7 +283,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
         child: Row(
           children: [
             ButtonField(
-              text: "Sil",
+              text: translate('GENERAL.DELETED'),
               color: const Color(0xFFff3d57),
               onPressed: () async {
                 var result = await loadingService.deleteLoading(widget.item);
@@ -296,13 +300,13 @@ class _LoadingDialogState extends State<LoadingDialog> {
             ),
             const Spacer(),
             ButtonField(
-              text: "Güncelle",
+              text: translate('GENERAL.UPDATE'),
               color: const Color(0xFF5052A2),
               onPressed: () async {
                 var result = await loadingService.saveLoading(widget.item);
                 result.isSuccess
                     // ignore: use_build_context_synchronously
-                    ? Utilities.showMessage(context: context, message: "Saved")
+                    ? Utilities.showMessage(context: context, message: translate('GENERAL.SAVED'))
                     // ignore: use_build_context_synchronously
                     : Utilities.showMessage(
                         context: context,
